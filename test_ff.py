@@ -1,48 +1,81 @@
 import os
 import subprocess
-import speech_recognition as sr
+from flask import Flask, redirect, render_template, request, session, url_for
+from flask_dropzone import Dropzone
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class,AUDIO
+import S_R_Upload
 
+
+app = Flask(__name__)
+dropzone = Dropzone(app)
+# Dropzone settings
+app.config['DROPZONE_UPLOAD_MULTIPLE'] = True
+app.config['DROPZONE_ALLOWED_FILE_CUSTOM'] = True
+app.config['DROPZONE_ALLOWED_FILE_TYPE'] = '.m4a'
+#app.config['DROPZONE_REDIRECT_VIEW'] = 'results'
+
+app.config['SECRET_KEY'] = 'supersecretkeygoeshere'
+audio_result = ""
+
+# Uploads settings
+app.config['UPLOADED_PHOTOS_DEST'] = os.path.dirname(os.path.realpath(__file__)) + "\\music"
+
+photos = UploadSet('photos', AUDIO)
+configure_uploads(app, photos)
+patch_request_class(app)  # set maximum file size, default is 16MB
 
 def converFile():
-    testdir = os.path.dirname(os.path.realpath(__file__))
-    testfile = os.path.join(testdir,"fuckyou.m4a")
-    outputpath = os.path.dirname(os.path.realpath(__file__)) 
-    outputFile = os.path.join(outputpath,"fuckyou.wav")
+    testdir = os.path.dirname(os.path.realpath(__file__)) + "\\music"
+    testfile = os.path.join(testdir,"fuckyou.wav")
+    outputpath = os.path.dirname(os.path.realpath(__file__)) + "\\music"
+    outputFile = os.path.join(outputpath,"fuckyouM4a.wav")
     print( outputFile, "\n", testfile )
     cmd = [ "ffmpeg", "-i", testfile, outputFile ]
     #subprocess.call(cmd, shell = True)
-    subprocess.Popen( cmd, shell= True )
+    process = subprocess.run( cmd )
+
+
+    #process = Popen(command, shell=True)
+    #subprocess.Popen("TASKKILL /F /PID {pid} /T".format(pid=process.pid))
     print("Convert m4a to wav Success")
 
-audio_result = ""
-
-
-
-def Speech_Recognition():   
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__))
-    AUDIO_FILE_EN = os.path.join(audio_dirpath, "fuckyou.wav")
-    r = sr.Recognizer()
-    # use the audio file as the audio source
-    with sr.AudioFile(AUDIO_FILE_EN) as source:
-        audio_en = r.record(source)  # read the entire audio file
+@app.route('/', methods=['GET', 'POST'])
+def index():
     
-    # grammar example using Sphinx
-    try:
-        print("My own voice file")
-        audio_result = str( r.recognize_google(audio_en) )
-        return audio_result
-    except sr.UnknownValueError:
-        audio_result = "Sphinx could not understand audio"
-        print( audio_result )
-    except sr.RequestError as e:
-        audio_result = str( "Sphinx error; {0}".format(e) )
-        print( audio_result )
+    # set session for image results
+    if "file_urls" not in session:
+        session['file_urls'] = []
+    # list to hold our uploaded image urls
+    file_urls = session['file_urls']
+    # handle image upload from Dropzone
+    if request.method == 'POST':
+        file_obj = request.files
+        for f in file_obj:
+            file = request.files.get(f)
+            
+            # save the file with to our photos folder
+            
+            filename = photos.save(
+                file,
+                name= "fuckyou.wav"    
+            )
+ 
+            # append image urls
+            file_urls.append(photos.url(filename))
+            
+        session['file_urls'] = file_urls
+        converFile()
+        audio_result = S_R_Upload.Speech_Recognition()
+        app.logger.info( "Audio Result: " + audio_result )
+        print(audio_result)
+        S_R_Upload.CleanData()
+        return "uploading..."
+    # return dropzone template on GET request    
+    return render_template('index.html')
 
-converFile()
-Speech_Recognition()
 
-
-
+if __name__ == '__main__':
+	app.run()
 
 
 
