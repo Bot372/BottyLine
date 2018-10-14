@@ -1,1 +1,1 @@
-web: gunicorn upload:app
+web: gunicorn test_ff_beta:app
