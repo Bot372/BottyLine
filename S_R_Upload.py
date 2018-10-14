@@ -10,7 +10,7 @@ audio_result = ""
 
 
 def Speech_Recognition():   
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + "\\music"
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
     AUDIO_FILE_EN = os.path.join(audio_dirpath, "fuckyouM4a.wav")
     r = sr.Recognizer()
     # use the audio file as the audio source
@@ -42,7 +42,7 @@ def WriteResult( audio_result_1 ):
 
 
 def CleanData():
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + "\\music"
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
     shutil.rmtree( audio_dirpath )
     os.makedirs(audio_dirpath)
 

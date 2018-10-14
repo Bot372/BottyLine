@@ -3,7 +3,9 @@ import subprocess
 from flask import Flask, redirect, render_template, request, session, url_for
 from flask_dropzone import Dropzone
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class,AUDIO
-import S_R_Upload
+import speech_recognition as sr
+import shutil
+
 
 
 app = Flask(__name__)
@@ -11,7 +13,7 @@ dropzone = Dropzone(app)
 # Dropzone settings
 app.config['DROPZONE_UPLOAD_MULTIPLE'] = True
 app.config['DROPZONE_ALLOWED_FILE_CUSTOM'] = True
-app.config['DROPZONE_ALLOWED_FILE_TYPE'] = '.m4a'
+app.config['DROPZONE_ALLOWED_FILE_TYPE'] = '.wav'
 #app.config['DROPZONE_REDIRECT_VIEW'] = 'results'
 
 app.config['SECRET_KEY'] = 'supersecretkeygoeshere'
@@ -25,6 +27,31 @@ configure_uploads(app, photos)
 patch_request_class(app)  # set maximum file size, default is 16MB
 
 
+
+def Speech_Recognition():   
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
+    AUDIO_FILE_EN = os.path.join(audio_dirpath, "fuckyou.wav")
+    r = sr.Recognizer()
+    # use the audio file as the audio source
+    with sr.AudioFile(AUDIO_FILE_EN) as source:
+        audio_en = r.record(source)  # read the entire audio file
+    
+    # grammar example using Sphinx
+    try:
+        print("My own voice file")
+        audio_result = str( r.recognize_google(audio_en) )
+        return audio_result
+    except sr.UnknownValueError:
+        audio_result = "Sphinx could not understand audio"
+        return audio_result 
+    except sr.RequestError as e:
+        audio_result = str( "Sphinx error; {0}".format(e) )
+        return audio_result 
+
+def CleanData():
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
+    shutil.rmtree( audio_dirpath )
+    os.makedirs(audio_dirpath)
 
 def converFile():
     testdir = os.path.dirname(os.path.realpath(__file__)) + '/music'
@@ -66,11 +93,10 @@ def index():
             file_urls.append(photos.url(filename))
             
         session['file_urls'] = file_urls
-        converFile()
-        audio_result = S_R_Upload.Speech_Recognition()
+        audio_result = Speech_Recognition()
         app.logger.info( "Audio Result: " + audio_result )
         print(audio_result)
-        S_R_Upload.CleanData()
+        CleanData()
         return "uploading..."
     # return dropzone template on GET request    
     return render_template('index.html')
