@@ -34,7 +34,7 @@ def converFile():
     print( outputFile, "\n", testfile )
     cmd = [ "ffmpeg", "-i", testfile, outputFile ]
     #subprocess.call(cmd, shell = True)
-    process = subprocess.run( cmd )
+    subprocess.run( cmd )
 
 
     #process = Popen(command, shell=True)
