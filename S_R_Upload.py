@@ -6,7 +6,6 @@ import subprocess
 
 
 
-
 ##Variables declare
 audio_result = ""
 
@@ -14,10 +13,10 @@ audio_result = ""
 
 
 def converFile():
-    testdir = os.path.dirname(os.path.realpath(__file__)) + '/music'
-    testfile = os.path.join(testdir,"s.wav")
-    outputpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
-    outputFile = os.path.join(outputpath,"sM4a.wav")
+    testdir = os.path.dirname(os.path.realpath(__file__))
+    testfile = os.path.join(testdir,"fuckyou.wav")
+    outputpath = os.path.dirname(os.path.realpath(__file__))
+    outputFile = os.path.join(outputpath,"fuckyouM4a.wav")
     print( outputFile, "\n", testfile )
     cmd = [ "ffmpeg", "-i", testfile, outputFile ]
     #subprocess.call(cmd, shell = True)
@@ -28,8 +27,8 @@ def converFile():
 
 
 def Speech_Recognition():   
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
-    AUDIO_FILE_EN = os.path.join(audio_dirpath, "sM4a.wav")
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__))
+    AUDIO_FILE_EN = os.path.join(audio_dirpath, "fuckyouM4a.wav")
     r = sr.Recognizer()
     # use the audio file as the audio source
     with sr.AudioFile(AUDIO_FILE_EN) as source:
@@ -50,7 +49,7 @@ def Speech_Recognition():
         return audio_result 
 
 def CleanData():
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__))
     shutil.rmtree( audio_dirpath )
     os.makedirs(audio_dirpath)
 

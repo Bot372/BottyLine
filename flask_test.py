@@ -89,11 +89,6 @@ def handle_message(event):
     url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/fuckyou.wav"
     audilFile = requests.get(url)
 
-    #s3.Bucket(BUCKET_NAME).download_file( file_path, '.')
-
-    file_path = '/music/s.wav'
-
-
     with open(file_path, 'wb') as fd:
         for chunk in audilFile.iter_content(chunk_size=1024):
             if chunk:
@@ -105,7 +100,17 @@ def handle_message(event):
     #Speech_Recognition###
     S_R_Upload.converFile()
     audio_result = S_R_Upload.Speech_Recognition()
-    S_R_Upload.CleanData()
+    if os.path.exists("fuckyou.wav"):
+        os.remove("fuckyou.wav")
+    else:
+        print("The file1 does not exist")
+
+    if os.path.exists("fuckyouM4a.wav"):
+        os.remove("fuckyouM4a.wav")
+    else:
+        print("The file2 does not exist")
+
+
     print("Audio Result: " + audio_result)
     line_bot_api.reply_message(event.reply_token, TextSendMessage(audio_result))
     #######################
