@@ -92,6 +92,7 @@ def handle_message(event):
 
 
 
+    file_path = '/music/fuckyou.wav'
     with open(file_path, 'wb') as fd:
         for chunk in audilFile.iter_content(chunk_size=1024):
             if chunk:
