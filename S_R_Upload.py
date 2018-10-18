@@ -2,11 +2,25 @@ import speech_recognition as sr
 import os
 import shutil
 import subprocess
+import boto3
+from botocore.client import Config
 
 
+
+
+ACCESS_KEY_ID = 'AKIAIJKNMECREABAM4EA'
+ACCESS_SECRET_KEY = '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'
+BUCKET_NAME = 'botty-bucket'
 
 ##Variables declare
 audio_result = ""
+
+s3 = boto3.resource(
+    's3',
+    aws_access_key_id=ACCESS_KEY_ID,
+    aws_secret_access_key=ACCESS_SECRET_KEY,
+    config=Config(signature_version='s3v4')
+)
 
 
 def converFile():
@@ -35,8 +49,12 @@ def Speech_Recognition():
     try:
         print("My own voice file")
         audio_result = str( r.recognize_google(audio_en) )
+        client = boto3.client('s3')
+        client.delete_object(Bucket='botty-bucket', Key='fuckyou.wav')
         return audio_result
     except sr.UnknownValueError:
+        client = boto3.client('s3')
+        client.delete_object(Bucket='botty-bucket', Key='fuckyou.wav')
         audio_result = "Sphinx could not understand audio"
         return audio_result 
     except sr.RequestError as e:

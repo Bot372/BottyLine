@@ -109,8 +109,7 @@ def handle_message(event):
 
     #file_delete#########################################################
 
-    client = boto3.client('s3')
-    client.delete_object(Bucket=BUCKET_NAME, Key='fuckyou.wav')
+
 
 
 
