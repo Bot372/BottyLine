@@ -100,10 +100,6 @@ def handle_message(event):
     #########################################################
 
 
-
-
-
-
     #Speech_Recognition###
     S_R_Upload.converFile()
     audio_result = S_R_Upload.Speech_Recognition()
@@ -111,9 +107,10 @@ def handle_message(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(audio_result))
     #######################
 
+    #file_delete#########################################################
 
-
-
+    client = boto3.client('s3')
+    client.delete_object(Bucket=BUCKET_NAME, Key='fuckyou.wav')
 
 
 
