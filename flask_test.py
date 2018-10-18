@@ -16,6 +16,7 @@ import S_R_Upload
 import boto3
 from botocore.client import Config
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -92,7 +93,11 @@ def handle_message(event):
 
 
 
-    file_path = '/music/fuckyou.wav'
+
+
+    testdir = os.path.dirname(os.path.realpath(__file__)) + '/music'
+    file_path = os.path.join(testdir,"fuckyou.wav")
+    
     with open(file_path, 'wb') as fd:
         for chunk in audilFile.iter_content(chunk_size=1024):
             if chunk:
