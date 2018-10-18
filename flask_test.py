@@ -91,13 +91,9 @@ def handle_message(event):
 
     #s3.Bucket(BUCKET_NAME).download_file( file_path, '.')
 
+    file_path = '/music/s.wav'
 
 
-
-
-    testdir = os.path.dirname(os.path.realpath(__file__)) + '/music'
-    file_path = os.path.join(testdir,"fuckyou.wav")
-    
     with open(file_path, 'wb') as fd:
         for chunk in audilFile.iter_content(chunk_size=1024):
             if chunk:

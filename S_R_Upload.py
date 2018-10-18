@@ -15,9 +15,9 @@ audio_result = ""
 
 def converFile():
     testdir = os.path.dirname(os.path.realpath(__file__)) + '/music'
-    testfile = os.path.join(testdir,"fuckyou.wav")
+    testfile = os.path.join(testdir,"s.wav")
     outputpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
-    outputFile = os.path.join(outputpath,"fuckyouM4a.wav")
+    outputFile = os.path.join(outputpath,"sM4a.wav")
     print( outputFile, "\n", testfile )
     cmd = [ "ffmpeg", "-i", testfile, outputFile ]
     #subprocess.call(cmd, shell = True)
@@ -29,7 +29,7 @@ def converFile():
 
 def Speech_Recognition():   
     audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
-    AUDIO_FILE_EN = os.path.join(audio_dirpath, "fuckyouM4a.wav")
+    AUDIO_FILE_EN = os.path.join(audio_dirpath, "sM4a.wav")
     r = sr.Recognizer()
     # use the audio file as the audio source
     with sr.AudioFile(AUDIO_FILE_EN) as source:
