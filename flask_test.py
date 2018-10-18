@@ -87,7 +87,7 @@ def handle_message(event):
     #url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/fuckyou.wav"
     #audilFile = requests.get(url)
 
-    s3.Bucket(BUCKET_NAME).download_file(file_path)
+    s3.Bucket(BUCKET_NAME).download_file(file_path, '.')
 
 
     """
