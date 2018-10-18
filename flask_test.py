@@ -15,6 +15,7 @@ from linebot import LineBotApi
 import S_R_Upload
 import boto3
 from botocore.client import Config
+import requests
 
 app = Flask(__name__)
 
@@ -82,16 +83,27 @@ def handle_message(event):
     print("Upload Successful")
     #########################################################
 
+    #Get File From AWS#######################################
+    url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/fuckyou.wav"
+    audilFile = requests.get(url)
+    with open(file_path, 'wb') as fd:
+        for chunk in message_content.iter_content(chunk_size=1024):
+            if chunk:
+                fd.write(chunk)
+    #########################################################
 
 
-    """"
+
+
+
+
     #Speech_Recognition###
     S_R_Upload.converFile()
     audio_result = S_R_Upload.Speech_Recognition()
-    app.logger.info("Audio Result: " + audio_result)
-    S_R_Upload.CleanData()
+    print("Audio Result: " + audio_result)
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(audio_result))
     #######################
-    """
+
 
 
 
