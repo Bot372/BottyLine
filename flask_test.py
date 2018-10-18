@@ -84,18 +84,19 @@ def handle_message(event):
     #########################################################
 
     #Get File From AWS#######################################
-    #url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/fuckyou.wav"
-    #audilFile = requests.get(url)
 
-    s3.Bucket(BUCKET_NAME).download_file(file_path, '.')
+    url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/fuckyou.wav"
+    audilFile = requests.get(url)
+
+    #s3.Bucket(BUCKET_NAME).download_file( file_path, '.')
 
 
-    """
+
     with open(file_path, 'wb') as fd:
-        for chunk in message_content.iter_content(chunk_size=1024):
+        for chunk in audilFile.iter_content(chunk_size=1024):
             if chunk:
                 fd.write(chunk)
-    """
+
     #########################################################
 
 
