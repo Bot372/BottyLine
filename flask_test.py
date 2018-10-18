@@ -38,7 +38,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    print("Request body: " + body, "Signature: " + signature)
+    #print("Request body: " + body, "Signature: " + signature)
     app.logger.info("Request body: " + body)
 
     # handle webhook body
@@ -58,9 +58,9 @@ def handle_message(event):
     # )
     # app.logger.info(  audio_message.type, "     ", audio_message  )
     #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
-    print("message.id_type: " + str(event.message.id))
+    #print("message.id_type: " + str(event.message.id))
     id = event.message.id
-    print(type(id))
+    #print(type(id))
 
     message_content = line_bot_api.get_message_content(id)
 
@@ -80,16 +80,22 @@ def handle_message(event):
         config = Config(signature_version='s3v4')
     )
     s3.Bucket(BUCKET_NAME).put_object(Key='fuckyou.wav', Body=data)
-    print("Upload Successful")
+    #print("Upload Successful")
     #########################################################
 
     #Get File From AWS#######################################
-    url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/fuckyou.wav"
-    audilFile = requests.get(url)
+    #url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/fuckyou.wav"
+    #audilFile = requests.get(url)
+
+    s3.Bucket(BUCKET_NAME).download_file(file_path)
+
+
+    """
     with open(file_path, 'wb') as fd:
         for chunk in message_content.iter_content(chunk_size=1024):
             if chunk:
                 fd.write(chunk)
+    """
     #########################################################
 
 
