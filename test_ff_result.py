@@ -41,6 +41,15 @@ def converFile():
     #subprocess.Popen("TASKKILL /F /PID {pid} /T".format(pid=process.pid))
     print("Convert m4a to wav Success")
 
+def WriteResult( audio_result_1 ):
+    txt_dirpath = os.path.dirname(os.path.realpath(__file__)) + "\\templates"
+    name_of_file = "AudioResult"
+    completeName = os.path.join( txt_dirpath, name_of_file + ".txt")         
+    file1 = open(completeName, "w")
+    file1.write( audio_result_1 )
+    file1.close()
+    print( "output the result -->", audio_result  )
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     
@@ -68,12 +77,25 @@ def index():
         session['file_urls'] = file_urls
         converFile()
         audio_result = S_R_Upload.Speech_Recognition()
-        app.logger.info( "Audio Result: " + audio_result )
+        #app.logger.info( "Audio Result: " + audio_result )
         print(audio_result)
         S_R_Upload.CleanData()
-        return "uploading..."
+        WriteResult( audio_result )
+        return audio_result
     # return dropzone template on GET request    
     return render_template('index.html')
+
+@app.route('/results')
+def results():
+    
+    # redirect to home if no images to display
+    if "file_urls" not in session or session['file_urls'] == []:
+        return redirect(url_for('index'))
+        
+    # set the file_urls and remove the session variable
+    #session.pop('file_urls', None)   
+    
+    return render_template('AudioResult.html')
 
 
 if __name__ == '__main__':

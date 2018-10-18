@@ -1,6 +1,7 @@
 import speech_recognition as sr
 import os
 import shutil
+import subprocess
 
 
 
@@ -8,9 +9,22 @@ import shutil
 audio_result = ""
 
 
+def converFile():
+    testdir = os.path.dirname(os.path.realpath(__file__)) + '/music_file'
+    testfile = os.path.join(testdir,"fuckyou.wav")
+    outputpath = os.path.dirname(os.path.realpath(__file__)) + '/music_file'
+    outputFile = os.path.join(outputpath,"fuckyouM4a.wav")
+    print( outputFile, "\n", testfile )
+    cmd = [ "ffmpeg", "-i", testfile, outputFile ]
+    #subprocess.call(cmd, shell = True)
+    subprocess.run( cmd )
+    #process = Popen(command, shell=True)
+    #subprocess.Popen("TASKKILL /F /PID {pid} /T".format(pid=process.pid))
+    print("Convert m4a to wav Success")
+
 
 def Speech_Recognition():   
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music_file'
     AUDIO_FILE_EN = os.path.join(audio_dirpath, "fuckyouM4a.wav")
     r = sr.Recognizer()
     # use the audio file as the audio source
@@ -29,28 +43,16 @@ def Speech_Recognition():
         audio_result = str( "Sphinx error; {0}".format(e) )
         return audio_result 
 
-#Speech_Recognition()
-
-def WriteResult( audio_result_1 ):
-    txt_dirpath = os.path.dirname(os.path.realpath(__file__)) + "\\static\\result"
-    name_of_file = "AudioResult"
-    completeName = os.path.join( txt_dirpath, name_of_file + ".txt")         
-    file1 = open(completeName, "w")
-    file1.write( audio_result_1 )
-    file1.close()
-    print( "output the result -->", audio_result  )
-
-
 def CleanData():
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music_file'
     shutil.rmtree( audio_dirpath )
     os.makedirs(audio_dirpath)
 
 
 
 #if __name__ == '__main__':
-#    uploadMusic.app.run()
+#    converFile()
 #    audio_result = Speech_Recognition()
-#    WriteResult()
+#    app.logger.info("Audio Result: " + audio_result)
 #    CleanData()
     
