@@ -14,9 +14,9 @@ audio_result = ""
 
 
 def converFile():
-    testdir = os.path.dirname(os.path.realpath(__file__)) + '\music'
+    testdir = os.path.dirname(os.path.realpath(__file__)) + '/music'
     testfile = os.path.join(testdir,"fuckyou.wav")
-    outputpath = os.path.dirname(os.path.realpath(__file__))
+    outputpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
     outputFile = os.path.join(outputpath,"fuckyouM4a.wav")
     print( outputFile, "\n", testfile )
     cmd = [ "ffmpeg", "-i", testfile, outputFile ]
@@ -28,7 +28,7 @@ def converFile():
 
 
 def Speech_Recognition():   
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__))
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
     AUDIO_FILE_EN = os.path.join(audio_dirpath, "fuckyouM4a.wav")
     r = sr.Recognizer()
     # use the audio file as the audio source
@@ -50,7 +50,7 @@ def Speech_Recognition():
         return audio_result 
 
 def CleanData():
-    audio_dirpath = os.path.dirname(os.path.realpath(__file__))
+    audio_dirpath = os.path.dirname(os.path.realpath(__file__)) + '/music'
     shutil.rmtree( audio_dirpath )
     os.makedirs(audio_dirpath)
 
