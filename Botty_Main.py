@@ -16,6 +16,7 @@ import S_R_Upload
 import boto3
 from botocore.client import Config
 import requests
+import json
 import os
 
 app = Flask(__name__)
@@ -57,12 +58,17 @@ def handle_message(event):
     id = event.message.id
     message_content = line_bot_api.get_message_content(id)
 
+
+    event_S = json.dumps(event)
+    event_S = event_S[event_S.find("userId") + 10: len(event_S)]
+    event_S = event_S[0: event_S.find("type") - 4]
+
     print(event['source']['userId'])
 
 
     #Save Audio File#######################################
 
-    file_path = "123" + ".wav"
+    file_path = event_S + ".wav"
     with open(file_path, 'wb') as fd:
         for chunk in message_content.iter_content(chunk_size=1024):
             if chunk:
