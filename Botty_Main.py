@@ -61,11 +61,11 @@ def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     #print("message.id_type: " + str(event.message.id))
     id = event.message.id
-    print(event.source)
+    print(event.source.type)
     #print(type(id))
 
     message_content = line_bot_api.get_message_content(id)
-
+    ."userId"
 
     #Save Audio File#######################################
 
