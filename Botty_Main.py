@@ -53,37 +53,13 @@ def callback():
 
 @handler.add(MessageEvent, message=AudioMessage)
 def handle_message(event):
-    # audio_message = AudioSendMessage(
-    # original_content_url='https://api.line.me/v2/bot/message/event.message.id.m4a',
-    # duration=240000
-    # )
-    # app.logger.info(  audio_message.type, "     ", audio_message  )
-    #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
-    #print("message.id_type: " + str(event.message.id))
+
     id = event.message.id
-
-    #print(event.source.userId)
-    #print(type(id))
-
     message_content = line_bot_api.get_message_content(id)
 
-    source_file = "user.json"
-    source_content = event
-    with open(source_file, 'wb') as fd:
-        for chunk in source_content.iter_content(chunk_size=1024):
-            if chunk:
-                fd.write(chunk)
+    print(event['source']['userId'])
 
-    data = open(source_file, 'rb')
-    s3 = boto3.resource(
-        's3',
-        aws_access_key_id=ACCESS_KEY_ID,
-        aws_secret_access_key=ACCESS_SECRET_KEY,
-        config = Config(signature_version='s3v4')
-    )
-    s3.Bucket(BUCKET_NAME).put_object(Key=source_file, Body=data)
 
-    """
     #Save Audio File#######################################
 
     file_path = "123" + ".wav"
@@ -115,7 +91,7 @@ def handle_message(event):
 
     #########################################################
 
-    
+    """"
     #Speech_Recognition###
     S_R_Upload.converFile( event.source.userId)
     audio_result = S_R_Upload.Speech_Recognition(event.source.userId)
