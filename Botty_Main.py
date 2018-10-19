@@ -61,7 +61,7 @@ def handle_message(event):
     print( event )
     event_S =  str(event)
     event_S = event_S[event_S.find("userId") + 10: len(event_S)]
-    event_S = event_S[0: event_S.find("timestamp") - 3]
+    event_S = event_S[0: event_S.find("timestamp") - 5]
 
 
 
