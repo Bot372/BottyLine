@@ -65,7 +65,7 @@ def handle_message(event):
     #print(type(id))
 
     message_content = line_bot_api.get_message_content(id)
-    ."userId"
+
 
     #Save Audio File#######################################
 
