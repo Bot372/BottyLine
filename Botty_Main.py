@@ -67,26 +67,27 @@ def handle_message(event):
 
 
     #Save Audio File#######################################
-    file_path = "fuckyou.wav"
+
+    file_path = event.source.userID + ".wav"
     with open(file_path, 'wb') as fd:
         for chunk in message_content.iter_content(chunk_size=1024):
             if chunk:
                 fd.write(chunk)
 
-    data = open('fuckyou.wav', 'rb')
+    data = open(file_path, 'rb')
     s3 = boto3.resource(
         's3',
         aws_access_key_id=ACCESS_KEY_ID,
         aws_secret_access_key=ACCESS_SECRET_KEY,
         config = Config(signature_version='s3v4')
     )
-    s3.Bucket(BUCKET_NAME).put_object(Key='fuckyou.wav', Body=data)
+    s3.Bucket(BUCKET_NAME).put_object(Key= file_path, Body=data)
     #print("Upload Successful")
     #########################################################
 
     #Get File From AWS#######################################
 
-    url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/fuckyou.wav"
+    url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/" + file_path
     audilFile = requests.get(url)
 
     with open(file_path, 'wb') as fd:
@@ -98,15 +99,16 @@ def handle_message(event):
 
 
     #Speech_Recognition###
-    S_R_Upload.converFile()
-    audio_result = S_R_Upload.Speech_Recognition()
-    if os.path.exists("fuckyou.wav"):
-        os.remove("fuckyou.wav")
+    S_R_Upload.converFile( event.source.userID  )
+    audio_result = S_R_Upload.Speech_Recognition(  event.source.userID  )
+    if os.path.exists( event.source.userID + ".wav" ):
+        os.remove( event.source.userID + ".wav" )
+
     else:
         print("The file1 does not exist")
 
-    if os.path.exists("fuckyouM4a.wav"):
-        os.remove("fuckyouM4a.wav")
+    if os.path.exists(  event.source.userID + "M4a.wav" ):
+        os.remove( event.source.userID + "M4a.wav" )
     else:
         print("The file2 does not exist")
 
