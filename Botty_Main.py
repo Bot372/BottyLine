@@ -63,12 +63,13 @@ def handle_message(event):
     event_S = event_S[event_S.find("userId") + 10: len(event_S)]
     event_S = event_S[0: event_S.find("type") - 4]
 
-    print(event['source']['userId'])
+
 
 
     #Save Audio File#######################################
 
     file_path = event_S + ".wav"
+    print( file_path )
     with open(file_path, 'wb') as fd:
         for chunk in message_content.iter_content(chunk_size=1024):
             if chunk:
