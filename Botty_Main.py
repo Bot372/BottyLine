@@ -61,8 +61,8 @@ def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     #print("message.id_type: " + str(event.message.id))
     id = event.message.id
-    userId = event.Source.UserID
-    print(userId)
+    #userId = event.Source.UserID
+    print(event)
 
     #print(type(id))
 
