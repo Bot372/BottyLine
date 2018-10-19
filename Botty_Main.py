@@ -68,7 +68,7 @@ def handle_message(event):
 
     #Save Audio File#######################################
 
-    file_path = event.source.userID + ".wav"
+    file_path = event.source.userId + ".wav"
     with open(file_path, 'wb') as fd:
         for chunk in message_content.iter_content(chunk_size=1024):
             if chunk:
@@ -99,16 +99,16 @@ def handle_message(event):
 
 
     #Speech_Recognition###
-    S_R_Upload.converFile( event.source.userID  )
-    audio_result = S_R_Upload.Speech_Recognition(  event.source.userID  )
-    if os.path.exists( event.source.userID + ".wav" ):
-        os.remove( event.source.userID + ".wav" )
+    S_R_Upload.converFile( event.source.userId)
+    audio_result = S_R_Upload.Speech_Recognition(event.source.userId)
+    if os.path.exists( event.source.userId + ".wav"):
+       os.remove( event.source.userId + ".wav")
 
     else:
         print("The file1 does not exist")
 
-    if os.path.exists(  event.source.userID + "M4a.wav" ):
-        os.remove( event.source.userID + "M4a.wav" )
+    if os.path.exists(event.source.userId + "M4a.wav" ):
+        os.remove(event.source.userId + "M4a.wav" )
     else:
         print("The file2 does not exist")
 
