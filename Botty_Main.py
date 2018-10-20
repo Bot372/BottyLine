@@ -98,18 +98,18 @@ def handle_message(event):
 
     #########################################################
 
-    """"
+
     #Speech_Recognition###
-    S_R_Upload.converFile( event.source.userId)
-    audio_result = S_R_Upload.Speech_Recognition(event.source.userId)
-    if os.path.exists( event.source.userId + ".wav"):
-       os.remove( event.source.userId + ".wav")
+    S_R_Upload.converFile( event_S  )
+    audio_result = S_R_Upload.Speech_Recognition( event_S  )
+    if os.path.exists( event_S + ".wav"):
+       os.remove( event_S + ".wav")
 
     else:
         print("The file1 does not exist")
 
-    if os.path.exists(event.source.userId + "M4a.wav" ):
-        os.remove(event.source.userId + "M4a.wav" )
+    if os.path.exists(  event_S + "M4a.wav" ):
+        os.remove(  event_S + "M4a.wav" )
     else:
         print("The file2 does not exist")
 
@@ -119,7 +119,7 @@ def handle_message(event):
     #######################
     
     #file_delete#########################################################
-    """
+
 
 
 
