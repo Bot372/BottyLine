@@ -17,7 +17,7 @@ manager.add_command('db', MigrateCommand)
 class UserData(db.Model):
     __tablename__ = 'UserData'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(64), primary_key=True)
     line_id = db.Column(db.String(64), primary_key=True)
     #Description = db.Column(db.String(128))
 
