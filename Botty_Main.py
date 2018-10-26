@@ -65,7 +65,7 @@ def handle_message(event):
     event_S = event_S[event_S.find("userId") + 10: len(event_S)]
     event_S = event_S[0: event_S.find("timestamp") - 5]
 
-    data_action.newDataDb(event_S)
+    data_action.newData(event_S)
 
 
     #Save Audio File#######################################
