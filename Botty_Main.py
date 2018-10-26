@@ -67,7 +67,7 @@ def handle_message(event):
 
     data_action.newData(event_S)
 
-
+    """
     #Save Audio File#######################################
 
     file_path = event_S + ".wav"
@@ -121,7 +121,7 @@ def handle_message(event):
     #######################
     
     #file_delete#########################################################
-
+    """
 
 
 

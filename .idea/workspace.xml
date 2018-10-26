@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae25b009-8836-4f09-a4c0-6e3d5ef18a16" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Botty_Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Botty_Main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Entity/Entity.py" beforeDir="false" afterPath="$PROJECT_DIR$/Entity/Entity.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,25 +37,28 @@
         <counts>
           <entry key="Python Console" value="26" />
           <entry key="dummy" value="11" />
-          <entry key="py" value="640" />
+          <entry key="py" value="655" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="12" />
-          <entry key="Python" value="666" />
+          <entry key="Python" value="681" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Botty_Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="21" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="21" />
+            <state relative-caret-position="627">
+              <caret line="123" column="8" selection-start-line="123" selection-start-column="8" selection-end-line="123" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -90,11 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Entity/Entity.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="15" column="26" lean-forward="true" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+            <state relative-caret-position="79">
+              <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -125,12 +128,12 @@
       <list>
         <option value="$PROJECT_DIR$/db_create.py" />
         <option value="$PROJECT_DIR$/app.py" />
-        <option value="$PROJECT_DIR$/Botty_Main.py" />
         <option value="$USER_HOME$/AppData/Roaming/Python/Python36/site-packages/flask_sqlalchemy/__init__.py" />
         <option value="$PROJECT_DIR$/Model/dModel.py" />
         <option value="$PROJECT_DIR$/data_action.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Entity/Entity.py" />
+        <option value="$PROJECT_DIR$/Botty_Main.py" />
       </list>
     </option>
   </component>
@@ -303,13 +306,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Botty_Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="21" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data_action.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -336,10 +332,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Entity/Entity.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="15" column="26" lean-forward="true" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+        <state relative-caret-position="79">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Botty_Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="123" column="8" selection-start-line="123" selection-start-column="8" selection-end-line="123" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
