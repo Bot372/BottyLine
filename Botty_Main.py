@@ -19,6 +19,8 @@ import requests
 import json
 import os
 
+import app
+
 app = Flask(__name__)
 
 line_bot_api = LineBotApi(
@@ -63,7 +65,7 @@ def handle_message(event):
     event_S = event_S[event_S.find("userId") + 10: len(event_S)]
     event_S = event_S[0: event_S.find("timestamp") - 5]
 
-
+    app.newDataDb(event_S)
 
 
     #Save Audio File#######################################
