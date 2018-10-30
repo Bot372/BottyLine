@@ -109,29 +109,6 @@ def handle_message(event):
             if chunk:
                 fd.write(chunk)
 
-    """"
-    data = open(file_path, 'rb')
-    s3 = boto3.resource(
-        's3',
-        aws_access_key_id=ACCESS_KEY_ID,
-        aws_secret_access_key=ACCESS_SECRET_KEY,
-        config = Config(signature_version='s3v4')
-    )
-    s3.Bucket(BUCKET_NAME).put_object(Key= file_path, Body=data)
-    print("Upload Successful")
-
-
-
-    url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/" + file_path
-    file_path = requests.get(url)
-   
-    with open(file_path, 'wb') as fd:
-        for chunk in file_path.iter_content(chunk_size=1024):
-            if chunk:
-                fd.write(chunk)
-  
-    """
-
     im = Image.open(file_path)
     im.save('result.png')
     CODE = decode(Image.open('result.png'))
@@ -144,6 +121,16 @@ def handle_message(event):
     print(string_of_code)
     code = string_of_code[2:len(string_of_code)-1]
     print(code)
+
+    if os.path.exists(file_path) :
+        os.remove(file_path)
+    else:
+        print("The file does not exist")
+
+    if os.path.exists('result.png'):
+        os.remove('result.png')
+    else:
+        print("The file does not exist")
 
     line_bot_api.reply_message(event.reply_token, TextSendMessage(code))
 
@@ -166,10 +153,10 @@ def handle_message(event):
 
     line_bot_api.reply_message(event.reply_token, TextSendMessage("hello Audio"))
 
-    """
+
     #Save Audio File#######################################
 
-    file_path = event_S + ".wav"
+    file_path = event_s + ".wav"
     print( file_path )
     with open(file_path, 'wb') as fd:
         for chunk in message_content.iter_content(chunk_size=1024):
@@ -201,16 +188,16 @@ def handle_message(event):
 
 
     #Speech_Recognition###
-    S_R_Upload.converFile( event_S  )
-    audio_result = S_R_Upload.Speech_Recognition( event_S  )
-    if os.path.exists( event_S + ".wav"):
-       os.remove( event_S + ".wav")
+    S_R_Upload.converFile(event_s)
+    audio_result = S_R_Upload.Speech_Recognition(event_s)
+    if os.path.exists(event_s + ".wav"):
+       os.remove(event_s + ".wav")
 
     else:
         print("The file1 does not exist")
 
-    if os.path.exists(  event_S + "M4a.wav" ):
-        os.remove(  event_S + "M4a.wav" )
+    if os.path.exists(event_s + "M4a.wav" ):
+        os.remove(event_s + "M4a.wav" )
     else:
         print("The file2 does not exist")
 
@@ -220,7 +207,7 @@ def handle_message(event):
     #######################
     
     #file_delete#########################################################
-    """
+
 
     # if result == bot add, bot delete, bot list call function
 
