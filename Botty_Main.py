@@ -18,8 +18,14 @@ from botocore.client import Config
 import requests
 import json
 import os
-
+import random
 import data_action
+import ast
+
+import sys
+from pyzbar.pyzbar import decode
+import cv2
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -52,6 +58,95 @@ def callback():
         abort(400)
 
     return 'OK'
+@handler.default()
+def default(event):
+    line_bot_api.reply_message(event.reply_token, TextSendMessage("Botty cannot read this type of message!! Please try audio or text message"))
+
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
+
+    # if event.message.text == "bot:add":
+    # add()
+    # elif event.message.text == "bot:delete":
+    # delete()
+    # elif event.message.text == "bot:list":
+    # list()
+    # else :
+    # line_bot_api.reply_message(event.reply_token, TextSendMessage("Botty cannot read what you are talking about!"))
+    
+
+
+@handler.add(MessageEvent, message=StickerMessage)
+def handle_message(event):
+    print("package_id:", event.message.package_id)
+    print("sticker_id:", event.message.sticker_id)
+    # ref. https://developers.line.me/media/messaging-api/sticker_list.pdf
+    sticker_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 21, 100, 101, 102, 103, 104, 105, 106,
+                   107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125,
+                   126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 401, 402]
+    index_id = random.randint(0, len(sticker_ids) - 1)
+    sticker_id = str(sticker_ids[index_id])
+    print(index_id)
+    sticker_message = StickerSendMessage(
+        package_id='1',
+        sticker_id=sticker_id
+    )
+    line_bot_api.reply_message(event.reply_token, sticker_message)
+
+
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_message(event):
+    #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello image"))
+    id = event.message.id
+    message_content = line_bot_api.get_message_content(id)
+
+    file_path = id + ".jpg"
+    print( file_path )
+    with open(file_path, 'wb') as fd:
+        for chunk in message_content.iter_content(chunk_size=1024):
+            if chunk:
+                fd.write(chunk)
+
+    """"
+    data = open(file_path, 'rb')
+    s3 = boto3.resource(
+        's3',
+        aws_access_key_id=ACCESS_KEY_ID,
+        aws_secret_access_key=ACCESS_SECRET_KEY,
+        config = Config(signature_version='s3v4')
+    )
+    s3.Bucket(BUCKET_NAME).put_object(Key= file_path, Body=data)
+    print("Upload Successful")
+
+
+
+    url = "https://s3-ap-northeast-1.amazonaws.com/botty-bucket/" + file_path
+    file_path = requests.get(url)
+   
+    with open(file_path, 'wb') as fd:
+        for chunk in file_path.iter_content(chunk_size=1024):
+            if chunk:
+                fd.write(chunk)
+  
+    """
+
+    im = Image.open(file_path)
+    im.save('result.png')
+    CODE = decode(Image.open('result.png'))
+
+    for x in CODE :
+        print(x)
+
+    string_of_code= str(CODE[0][0])
+
+    print(string_of_code)
+    code = string_of_code[2:len(string_of_code)-1]
+    print(code)
+
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(code))
+
 
 
 @handler.add(MessageEvent, message=AudioMessage)
@@ -60,12 +155,16 @@ def handle_message(event):
     id = event.message.id
     message_content = line_bot_api.get_message_content(id)
 
-    print( event )
-    event_S =  str(event)
-    event_S = event_S[event_S.find("userId") + 10: len(event_S)]
-    event_S = event_S[0: event_S.find("timestamp") - 5]
+    #print( event )
+    event_s = str(event)
+    event_s = ast.literal_eval(event_s)
+    event_s = event_s['source']['userId']
 
-    data_action.newData(event_S)
+    data_action.newData(event_s)
+
+
+
+    line_bot_api.reply_message(event.reply_token, TextSendMessage("hello Audio"))
 
     """
     #Save Audio File#######################################
@@ -123,7 +222,7 @@ def handle_message(event):
     #file_delete#########################################################
     """
 
-
+    # if result == bot add, bot delete, bot list call function
 
 
 if __name__ == "__main__":
