@@ -203,7 +203,10 @@ def handle_message(event):
 
 
     print("Audio Result: " + audio_result)
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(audio_result))
+
+
+
+    #line_bot_api.reply_message(event.reply_token, TextSendMessage(audio_result))
     #######################
     
     #file_delete#########################################################
