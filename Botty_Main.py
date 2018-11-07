@@ -16,15 +16,15 @@ import S_R_Upload
 import boto3
 from botocore.client import Config
 import requests
-import json
+
+
 import os
 import random
 import data_action
 import ast
+import zbar
+from pyzbar.pyzbar import *
 
-import sys
-from pyzbar.pyzbar import decode
-import cv2
 from PIL import Image
 
 app = Flask(__name__)
