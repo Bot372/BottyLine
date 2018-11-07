@@ -22,7 +22,8 @@ import os
 import random
 import data_action
 import ast
-import zbar
+
+
 from pyzbar.pyzbar import *
 
 from PIL import Image
