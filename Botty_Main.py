@@ -24,7 +24,7 @@ import data_action
 import ast
 
 
-from pyzbar.pyzbar import *
+import pyzbar.pyzbar import *
 
 from PIL import Image
 
