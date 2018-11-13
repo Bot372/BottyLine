@@ -99,6 +99,71 @@ def parse_user_text(user_text):
     return responseJson
 
 
+def NLP(  event, user_text, user_id ) :
+    # NLP analyze 1.OtherType 2.smalltalk Iot-1.Light Iot-2.Lock Iot-3.Heating Iot-4.Device on off 3.weather 4.news
+    Diaresponse = parse_user_text(user_text)
+    responseMessenge = ""
+    action = Diaresponse["result"]["action"]
+    # print( json.dumps(  Diaresponse, indent=4 ) )
+
+    # Check the product in the Database
+    # 1. fetch the Product list in the database to dict
+    doc_ref = db.collection(u'user').document(user_id)
+    doc = doc_ref.get()
+    doc_single = doc.to_dict()
+
+    smartHomeDict = {
+        "lights.switch": doc_single["lights.switch"],
+        "lock": doc_single["lock"],
+        "heating": doc_single["heating"],
+        "device.switch": doc_single["device.switch"],
+    }
+
+    print(action)
+    # (1) other Type send sticker or telling a joke
+    if action == "input.unknown":
+        responseMessenge = Diaresponse["result"]["fulfillment"]["messages"]
+        responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
+        responseMessenge = responseMessenge[0]["speech"]
+    # (2) small talk
+    elif action[0:9] == "smalltalk":
+        responseMessenge = Diaresponse["result"]["fulfillment"]["messages"]
+        responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
+        responseMessenge = responseMessenge[0]["speech"]
+    # (Iot-1) smart home Light
+    elif action[0:23] == "smarthome.lights.switch" and smartHomeDict["lights.switch"] == True:
+        light = smarthomeLight.Light(action, Diaresponse["result"], user_id)
+        light.runSmarthome_Light()
+        responseMessenge = light.getSpeech()
+        # (Iot-2) smart home Lock
+    elif action[0:15] == "smarthome.locks" and smartHomeDict["lock"] == True:
+        lock = smarthomeLock.Lock(action, Diaresponse["result"], user_id)
+        lock.runSmarthome_Lock()
+        responseMessenge = lock.getSpeech()
+    # (Iot-3) smart home heat
+    elif action[0:17] == "smarthome.heating" and smartHomeDict["heating"] == True:
+        heat = smarthomeHeat.Heat(action, Diaresponse["result"], user_id)
+        heat.runSmarthome_Heat()
+        responseMessenge = heat.getSpeech()
+    # (Iot-4) smart home device
+    elif action[0:23] == "smarthome.device.switch" and smartHomeDict["device.switch"] == True:
+        device = smarthomeDevice.Device(action, Diaresponse["result"], user_id)
+        device.runSmarthome_Device()
+        responseMessenge = device.getSpeech()
+    # (3) check the weather
+    elif action == "check.weather":
+        responseMessenge = weather.runWeather()
+        # (4) check the news
+    elif action == "check.news":
+        responseMessenge = news.runNews()
+    # Ask about adding new device
+    else:
+        responseMessenge = "Do you want to add the new IoT device"
+
+    return responseMessenge
+
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
@@ -126,68 +191,7 @@ def handle_message(event):
         print("bot:list")
         # list()
     else :
-        # NLP analyze 1.OtherType 2.smalltalk Iot-1.Light Iot-2.Lock Iot-3.Heating Iot-4.Device on off 3.weather 4.news
-        Diaresponse = parse_user_text(event.message.text)
-        responseMessenge = ""
-        action =  Diaresponse["result"]["action"]
-        #print( json.dumps(  Diaresponse, indent=4 ) )
-
-
-        # Check the product in the Database
-        # 1. fetch the Product list in the database to dict
-        doc_ref = db.collection(u'user').document(user_id)
-        doc = doc_ref.get()
-        doc_single = doc.to_dict()
-
-        smartHomeDict = {
-            "lights.switch": doc_single["lights.switch"],
-            "lock": doc_single["lock"],
-            "heating": doc_single["heating"],
-            "device.switch": doc_single["device.switch"],
-        }
-
-        print(action)
-        # (1) other Type send sticker or telling a joke
-        if action == "input.unknown":
-            responseMessenge = Diaresponse["result"]["fulfillment"]["messages"]
-            responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
-            responseMessenge = responseMessenge[0]["speech"]
-        # (2) small talk
-        elif action[0:9] == "smalltalk":
-            responseMessenge = Diaresponse["result"]["fulfillment"]["messages"]
-            responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
-            responseMessenge = responseMessenge[0]["speech"]
-        # (Iot-1) smart home Light
-        elif action[0:23] == "smarthome.lights.switch" and smartHomeDict["lights.switch"] == True:
-            light = smarthomeLight.Light(action, Diaresponse["result"], user_id  )
-            light.runSmarthome_Light()
-            responseMessenge = light.getSpeech()
-            # (Iot-2) smart home Lock
-        elif action[0:15] == "smarthome.locks" and smartHomeDict["lock"] == True:
-            lock = smarthomeLock.Lock(action, Diaresponse["result"], user_id )
-            lock.runSmarthome_Lock()
-            responseMessenge = lock.getSpeech()
-        # (Iot-3) smart home heat
-        elif action[0:17] == "smarthome.heating" and smartHomeDict["heating"] == True:
-            heat = smarthomeHeat.Heat(action, Diaresponse["result"], user_id )
-            heat.runSmarthome_Heat()
-            responseMessenge = heat.getSpeech()
-        # (Iot-4) smart home device
-        elif action[0:23] == "smarthome.device.switch" and smartHomeDict["device.switch"] == True:
-            device = smarthomeDevice.Device(action, Diaresponse["result"], user_id )
-            device.runSmarthome_Device()
-            responseMessenge = device.getSpeech()
-        # (3) check the weather
-        elif action == "check.weather":
-            responseMessenge = weather.runWeather()
-            # (4) check the news
-        elif action == "check.news":
-            responseMessenge = news.runNews()
-        # Ask about adding new device
-        else:
-            responseMessenge = "Do you want to add the new IoT device"
-
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=responseMessenge))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(NLP(event, event.message.text, user_id)))
 
 
 
@@ -250,11 +254,9 @@ def handle_message(event):
 
     line_bot_api.reply_message(event.reply_token, TextSendMessage(code))
 
-
 def add_dataAction(user_id, profile,event):
 
     check_user_exist(user_id, profile,event)
-
 
 def check_user_exist(user_id, profile, event):
     # already_exist
@@ -302,10 +304,6 @@ def check_user_exist(user_id, profile, event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage("account is exist"))
 
 
-
-
-
-
 @handler.add(MessageEvent, message=AudioMessage)
 def handle_message(event):
 
@@ -313,15 +311,15 @@ def handle_message(event):
     message_content = line_bot_api.get_message_content(id)
 
     #print( event )
-    event_s = str(event)
-    event_s = ast.literal_eval(event_s)
-    event_s = event_s['source']['userId']
+    user_id = str(event)
+    user_id= ast.literal_eval(user_id)
+    user_id = user_id['source']['userId']
 
 
     #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello Audio"))
     #Save Audio File#######################################
 
-    file_path = event_s + ".wav"
+    file_path = user_id + ".wav"
     print( file_path )
     with open(file_path, 'wb') as fd:
         for chunk in message_content.iter_content(chunk_size=1024):
@@ -353,16 +351,16 @@ def handle_message(event):
 
 
     #Speech_Recognition###
-    S_R_Upload.converFile(event_s)
-    audio_result = S_R_Upload.Speech_Recognition(event_s)
-    if os.path.exists(event_s + ".wav"):
-       os.remove(event_s + ".wav")
+    S_R_Upload.converFile(user_id)
+    audio_result = S_R_Upload.Speech_Recognition(user_id)
+    if os.path.exists(user_id + ".wav"):
+       os.remove(user_id + ".wav")
 
     else:
         print("The file1 does not exist")
 
-    if os.path.exists(event_s + "M4a.wav" ):
-        os.remove(event_s + "M4a.wav" )
+    if os.path.exists(user_id+ "M4a.wav" ):
+        os.remove(user_id + "M4a.wav" )
     else:
         print("The file2 does not exist")
 
@@ -371,13 +369,8 @@ def handle_message(event):
 
 
 
-    #line_bot_api.reply_message(event.reply_token, TextSendMessage(audio_result))
-    #######################
-    
-    #file_delete#########################################################
+    line_bot_api.reply_message(event.reply_token, TextSendMessage( NLP(event, audio_result, user_id)  ) )
 
-
-    # if result == bot add, bot delete, bot list call function
 
 
 if __name__ == "__main__":
