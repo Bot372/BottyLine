@@ -38,9 +38,9 @@ from firebase_admin import credentials, firestore
 
 
 #Firebase Api Fetch the service account key JSON file contents
-cred = credentials.Certificate('path/to/bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json')
-#FIREBASE_TOKEN = bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json
-#cred = credentials.Certificate(FIREBASE_TOKEN)
+
+FIREBASE_TOKEN = "bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json"
+cred = credentials.Certificate(FIREBASE_TOKEN)
 # Initialize the app with a service account, granting admin privileges
 default_app = firebase_admin.initialize_app(cred)
 
