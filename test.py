@@ -1,4 +1,4 @@
-'''
+
 import json
 import requests
 import firebase_admin
@@ -12,17 +12,17 @@ cred = credentials.Certificate( FIREBASE_TOKEN )
 # Initialize the app with a service account, granting admin privileges
 default_app_1 = firebase_admin.initialize_app(cred)
 
-
+default_app_2 = firebase_admin.initialize_app(cred)
 
 # conncect to cloud firestore database
 db = firestore.client()
-doc_ref = db.collection(u'user').document(u'4tog7uwiokbpej8F9Jer')
+doc_ref = db.collection(u'userTextTree').document(u'Ir44HEvRBXVJOl5wRPj7')
 doc = doc_ref.get()
 doc_single = doc.to_dict()
 #print( type( doc ) )
 
 #array get
-testArray = doc_single["test"]
+testArray = doc_single["abc"]
 print( testArray )
 print(  type( testArray )  )
 print( testArray )
@@ -38,7 +38,7 @@ doc_ref.update({u'test' : testArray})
 #testArray.remove("Add")
 
 #print( doc_single )
-'''
+
 
 
 

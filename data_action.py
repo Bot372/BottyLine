@@ -1,35 +1,4 @@
-from firebase_admin import firestore
-
-from linebot.models import *
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-
-from linebot.models import *
-from linebot import LineBotApi
-
-import google.cloud.exceptions # thrown exception
-
-# Fetch the service account key JSON file contents
-import Botty_Main
-import firebase_admin
-from firebase_admin import credentials, firestore
-#FIREBASE_TOKEN = "bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json"
-#cred = credentials.Certificate( FIREBASE_TOKEN )
-
-# Initialize the app with a service account, granting admin privileges
-#default_app_2 = firebase_admin.initialize_app(cred)
-
-
-# conncect to cloud firestore database
-db = firestore.client()
-
-
-
-def add(user_id, profile,event):
+def add_dataAction(user_id, profile,event):
 
     check_user_exist(user_id, profile,event)
 
@@ -37,7 +6,7 @@ def add(user_id, profile,event):
 def check_user_exist(user_id, profile, event):
     # already_exist
 
-
+    # conncect to cloud firestore database
     doc_ref = db.collection(u'user').document(user_id)
     doc = doc_ref.get()
     doc_single = doc.to_dict()
