@@ -15,8 +15,13 @@ import google.cloud.exceptions # thrown exception
 
 # Fetch the service account key JSON file contents
 import Botty_Main
+import firebase_admin
+from firebase_admin import credentials, firestore
+FIREBASE_TOKEN = "bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json"
+cred = credentials.Certificate( FIREBASE_TOKEN )
 
-
+# Initialize the app with a service account, granting admin privileges
+default_app = firebase_admin.initialize_app(cred)
 
 
 # conncect to cloud firestore database
