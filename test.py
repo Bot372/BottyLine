@@ -1,3 +1,4 @@
+'''
 import json
 import requests
 import firebase_admin
@@ -37,7 +38,7 @@ doc_ref.update({u'test' : testArray})
 #testArray.remove("Add")
 
 #print( doc_single )
-
+'''
 
 
 
