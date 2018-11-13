@@ -38,12 +38,11 @@ from firebase_admin import credentials, firestore
 
 
 #Firebase Api Fetch the service account key JSON file contents
-FIREBASE_TOKEN = "bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json"
-cred = credentials.Certificate( FIREBASE_TOKEN )
+cred = credentials.Certificate('path/to/bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json')
+#FIREBASE_TOKEN = bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json
+#cred = credentials.Certificate(FIREBASE_TOKEN)
 # Initialize the app with a service account, granting admin privileges
 default_app = firebase_admin.initialize_app(cred)
-
-
 
 
 app = Flask(__name__)
@@ -58,10 +57,9 @@ audio_result = ""
 ACCESS_KEY_ID = 'AKIAIJKNMECREABAM4EA'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'botty-bucket'
+
 #Dialog flow Api
 ai = apiai.ApiAI('35d3ac64264d445bb2fd9f04361149b8')
-
-
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -262,9 +260,7 @@ def handle_message(event):
     string_of_code= str(CODE[0][0])
 
     print(string_of_code)
-    code = string_of_c
-
-    ode[2:len(string_of_code)-1]
+    code = string_of_code[2:len(string_of_code)-1]
     print(code)
 
     if os.path.exists(file_path) :
