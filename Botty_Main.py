@@ -8,7 +8,6 @@ from linebot.exceptions import (
 )
 
 from linebot.models import *
-
 from linebot import LineBotApi
 
 
@@ -16,17 +15,36 @@ import S_R_Upload
 import boto3
 from botocore.client import Config
 import requests
-
-
 import os
+import sys
 import random
 import data_action
 import ast
+import json
+import apiai  # Dialog Flow Apis
 
 
 from pyzbar.pyzbar import *
-
 from PIL import Image
+
+#add the smarthome file to current system path
+testdir = os.path.dirname(os.path.realpath(__file__)) + "\\smarthome"
+sys.path.insert(0, testdir )
+
+from smarthome import smarthomeLight, smarthomeHeat, smarthomeDevice, smarthomeLock, weather, news
+
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+
+#Firebase Api Fetch the service account key JSON file contents
+FIREBASE_TOKEN = "bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json"
+cred = credentials.Certificate( FIREBASE_TOKEN )
+# Initialize the app with a service account, granting admin privileges
+default_app = firebase_admin.initialize_app(cred)
+
+
+
 
 app = Flask(__name__)
 
@@ -40,6 +58,9 @@ audio_result = ""
 ACCESS_KEY_ID = 'AKIAIJKNMECREABAM4EA'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'botty-bucket'
+#Dialog flow Api
+ai = apiai.ApiAI('35d3ac64264d445bb2fd9f04361149b8')
+
 
 
 @app.route("/callback", methods=['POST'])
@@ -59,22 +80,144 @@ def callback():
         abort(400)
 
     return 'OK'
+"""
 @handler.default()
 def default(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage("Botty cannot read this type of message!! Please try audio or text message"))
+"""
+
+def parse_user_text(user_text):
+    '''
+    Send the message to API AI which invokes an intent
+    and sends the response accordingly
+    '''
+    request = ai.text_request()
+    request.query = user_text
+    #request.session_id = "123456789"
+    response = request.getresponse().read().decode('utf-8')
+    responseJson = json.loads(response)
+    #print( json.dumps(responseJson["result"]["parameters"], indent=4) )
+    return responseJson
 
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
+    #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
 
-    # if event.message.text == "bot:add":
-    # add()
-    # elif event.message.text == "bot:delete":
-    # delete()
-    # elif event.message.text == "bot:list":
-    # list()
-    # else :
+    user_id = str(event)
+    user_id = ast.literal_eval(user_id)
+    user_id = user_id['source']['userId']
+
+    profile = line_bot_api.get_profile(user_id)
+
+    # conncect to cloud firestore database
+    db = firestore.client()# conncect to cloud firestore database
+    db = firestore.client()
+
+    doc_ref = db.collection(u'userTextTree').document(user_id)
+    doc = doc_ref.get()
+    doc_single = doc.to_dict()
+
+
+    if event.message.text == "bot:add" and (  doc_single == None or doc_single["name"] == "add" ) :
+        print("hello")
+        if doc_single == None :
+            doc_ref.set({
+                u'child': {
+                    u'name':  "default"
+                },
+                u'name': "add"
+            })
+
+
+
+        data_action.add(user_id, profile,event)
+    elif event.message.text == "bot:delete" and (  doc_single == None or doc_single["name"] == "delete" )  :
+        print("bot:delete")
+        if doc_single == None :
+            doc_ref.set({
+                u'child': {
+                    u'name':  "default"
+                },
+                u'name': "add"
+            })
+        # delete()
+    elif event.message.text == "bot:list" and (  doc_single == None or doc_single["name"] == "list" ) :
+        print("bot:list")
+        if doc_single == None :
+            doc_ref.set({
+                u'child': {
+                    u'name':  "default"
+                },
+                u'name': "add"
+            })
+        # list()
+    else :
+        # NLP analyze 1.OtherType 2.smalltalk Iot-1.Light Iot-2.Lock Iot-3.Heating Iot-4.Device on off 3.weather 4.news
+        Diaresponse = parse_user_text(event.message.text)
+        responseMessenge = ""
+        action =  Diaresponse["result"]["action"]
+        #print( json.dumps(  Diaresponse, indent=4 ) )
+
+
+        # Check the product in the Database
+        # 1. fetch the Product list in the database to dict
+        doc_ref = db.collection(u'user').document(user_id)
+        doc = doc_ref.get()
+        doc_single = doc.to_dict()
+
+        smartHomeDict = {
+            "lights.switch": doc_single["lights.switch"],
+            "lock": doc_single["lock"],
+            "heating": doc_single["heating"],
+            "device.switch": doc_single["device.switch"],
+        }
+
+        print(action)
+        # (1) other Type send sticker or telling a joke
+        if action == "input.unknown":
+            responseMessenge = Diaresponse["result"]["fulfillment"]["messages"]
+            responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
+            responseMessenge = responseMessenge[0]["speech"]
+        # (2) small talk
+        elif action[0:9] == "smalltalk":
+            responseMessenge = Diaresponse["result"]["fulfillment"]["messages"]
+            responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
+            responseMessenge = responseMessenge[0]["speech"]
+        # (Iot-1) smart home Light
+        elif action[0:23] == "smarthome.lights.switch" and smartHomeDict["lights.switch"] == True:
+            light = smarthomeLight.Light(action, Diaresponse["result"], user_id  )
+            light.runSmarthome_Light()
+            responseMessenge = light.getSpeech()
+            # (Iot-2) smart home Lock
+        elif action[0:15] == "smarthome.locks" and smartHomeDict["lock"] == True:
+            lock = smarthomeLock.Lock(action, Diaresponse["result"], user_id )
+            lock.runSmarthome_Lock()
+            responseMessenge = lock.getSpeech()
+        # (Iot-3) smart home heat
+        elif action[0:17] == "smarthome.heating" and smartHomeDict["heating"] == True:
+            heat = smarthomeHeat.Heat(action, Diaresponse["result"], user_id )
+            heat.runSmarthome_Heat()
+            responseMessenge = heat.getSpeech()
+        # (Iot-4) smart home device
+        elif action[0:23] == "smarthome.device.switch" and smartHomeDict["device.switch"] == True:
+            device = smarthomeDevice.Device(action, Diaresponse["result"], user_id )
+            device.runSmarthome_Device()
+            responseMessenge = device.getSpeech()
+        # (3) check the weather
+        elif action == "check.weather":
+            responseMessenge = weather.runWeather()
+            # (4) check the news
+        elif action == "check.news":
+            responseMessenge = news.runNews()
+        # Ask about adding new device
+        else:
+            responseMessenge = "Do you want to add the new IoT device"
+
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=responseMessenge))
+
+
+
     # line_bot_api.reply_message(event.reply_token, TextSendMessage("Botty cannot read what you are talking about!"))
     
 
@@ -95,7 +238,6 @@ def handle_message(event):
         sticker_id=sticker_id
     )
     line_bot_api.reply_message(event.reply_token, sticker_message)
-
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
@@ -120,7 +262,9 @@ def handle_message(event):
     string_of_code= str(CODE[0][0])
 
     print(string_of_code)
-    code = string_of_code[2:len(string_of_code)-1]
+    code = string_of_c
+
+    ode[2:len(string_of_code)-1]
     print(code)
 
     if os.path.exists(file_path) :
@@ -135,8 +279,6 @@ def handle_message(event):
 
     line_bot_api.reply_message(event.reply_token, TextSendMessage(code))
 
-
-
 @handler.add(MessageEvent, message=AudioMessage)
 def handle_message(event):
 
@@ -148,13 +290,8 @@ def handle_message(event):
     event_s = ast.literal_eval(event_s)
     event_s = event_s['source']['userId']
 
-    data_action.newData(event_s)
 
-
-
-    line_bot_api.reply_message(event.reply_token, TextSendMessage("hello Audio"))
-
-
+    #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello Audio"))
     #Save Audio File#######################################
 
     file_path = event_s + ".wav"

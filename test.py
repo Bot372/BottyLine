@@ -15,6 +15,35 @@ default_app = firebase_admin.initialize_app(cred)
 
 # conncect to cloud firestore database
 db = firestore.client()
+doc_ref = db.collection(u'user').document(u'4tog7uwiokbpej8F9Jer')
+doc = doc_ref.get()
+doc_single = doc.to_dict()
+#print( type( doc ) )
+
+#array get
+testArray = doc_single["test"]
+print( testArray )
+print(  type( testArray )  )
+print( testArray )
+
+# array update//////////////////////////////////////////////
+testArray.append( 'Add' )
+#testDict  = dict( testArray )
+#print( aye )
+doc_ref.update({u'test' : testArray})
+
+# array delete
+#testArray.pop(1)
+#testArray.remove("Add")
+
+#print( doc_single )
+
+
+
+
+
+
+
 
 '''
 # Add Data Base
@@ -106,12 +135,13 @@ db.collection(u'user').document(u'Uea3e3f87d6adaf08043d5fcaee99d54e').delete()
 '''
 
 
+"""
 #delete field
 doc_ref = db.collection(u'user').document(u'KzB4qhkkLp5a6VWEyX81')
 doc_ref.update({
     u'device.device' : firestore.DELETE_FIELD
 })
-
+"""
 
 """
 #delete_full_collection
