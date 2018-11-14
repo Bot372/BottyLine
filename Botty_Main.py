@@ -333,11 +333,7 @@ def handle_message(event):
             if doc_single["lock"]["situation"] is True:
                 templist.append("lock")
 
-            tempArray = list()
-            tempArray.append("DELETE")
-            now = datetime.datetime.now()
 
-            doc_ref_text.set({u'stock': tempArray, u'time': now})
             line_bot_api.push_message(user_id, TextSendMessage("Availible Device : "))
             for x in templist:
                 line_bot_api.push_message(user_id, TextSendMessage(x))
