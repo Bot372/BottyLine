@@ -18,11 +18,10 @@ import requests
 import os
 import sys
 import random
-#import data_action
 import ast
 import json
 import apiai  # Dialog Flow Apis
-
+import datetime
 
 from pyzbar.pyzbar import *
 from PIL import Image
@@ -98,7 +97,6 @@ def parse_user_text(user_text):
     #print( json.dumps(responseJson["result"]["parameters"], indent=4) )
     return responseJson
 
-
 def NLP(  event, user_text, user_id ) :
     # NLP analyze 1.OtherType 2.smalltalk Iot-1.Light Iot-2.Lock Iot-3.Heating Iot-4.Device on off 3.weather 4.news
     Diaresponse = parse_user_text(user_text)
@@ -113,10 +111,10 @@ def NLP(  event, user_text, user_id ) :
     doc_single = doc.to_dict()
 
     smartHomeDict = {
-        "lights.switch": doc_single["lights.switch"],
-        "lock": doc_single["lock"],
-        "heating": doc_single["heating"],
-        "device.switch": doc_single["device.switch"],
+        "lights.switch": doc_single["lights.switch"]["situation"],
+        "lock": doc_single["lock"]["situation"],
+        "heating": doc_single["heating"]["situation"],
+        "device.switch": doc_single["device.switch"]["situation"],
     }
 
     print(action)
@@ -164,6 +162,7 @@ def NLP(  event, user_text, user_id ) :
 
 
 
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
@@ -175,28 +174,183 @@ def handle_message(event):
     profile = line_bot_api.get_profile(user_id)
 
 
+    doc_ref_text = db.collection(u'userTextTree').document(user_id)
+    doc_text = doc_ref_text.get()
+    doc_single_text = doc_text.to_dict()
+    if doc_single_text is not None :
+        print(  doc_single_text["stock"][0] )
 
-    doc_ref = db.collection(u'userTextTree').document(user_id)
-    doc = doc_ref.get()
-    doc_single = doc.to_dict()
 
 
-    if event.message.text == "bot:add" and doc_single == None  :
-        print("hello")
-        add_dataAction(user_id, profile,event)
-    elif event.message.text == "bot:delete" and doc_single == None  :
+    if event.message.text == "bot:add" or ( doc_single_text is not None and doc_single_text["stock"][0] == "ADD"  ) :
+
+        # initailize botty text stock with array and timestamp
+        # Step1
+        if not check_userTextTree(user_id) :
+            if check_user_exist(user_id) is True :
+                Confirm_template = TemplateSendMessage(
+                    alt_text='Confirm Notice',
+                    template=ConfirmTemplate(title='這是ConfirmTemplate',text='Hello, welcome back to botty. Do you want add new device ?',
+                        actions=[PostbackTemplateAction(label='Add New Device',text='Add new Device in your account',data='action=buy&itemid=1'),
+                            MessageTemplateAction(label='No New Account',text='No need add in account')
+                        ]
+                    )
+                )
+
+                line_bot_api.reply_message(event.reply_token, Confirm_template)
+            else :
+                Confirm_template = TemplateSendMessage(
+                    alt_text='Confirm Notice',
+                    template=ConfirmTemplate(title='這是ConfirmTemplate',text='Hello, welcome to botty. Do you want to join us ?',
+                        actions=[PostbackTemplateAction(label='Add New Account ',text='Add new Account',data='action=buy&itemid=1'),
+                            MessageTemplateAction(label='No New Account',text='No New Account')
+                        ]
+                    )
+                )
+
+                line_bot_api.reply_message(event.reply_token, Confirm_template)
+
+        # Step2-new Account
+        #new Account( Yes / No )
+        elif event.message.text == "Add new Account" and ( doc_single_text["stock"][0] == "ADD" ) :
+            #create new user
+            print( "Enter Add new Account" )
+            doc_ref = db.collection(u'user').document(user_id)
+            doc_ref.set({ u'device-switch' : { u'situation' : False, u'UUID' : "******", u'TimeStamp' : datetime.datetime.now()}
+                         ,u'heating': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}
+                         ,u'light-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}
+                         ,u'lock': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
+
+            #fetch userTextTree and push "AddnewAccount"
+            doc_ref_text = db.collection(u'userTextTree').document(user_id)
+            doc_text = doc_ref_text.get().to_dict()["stock"]
+            doc_text.append( "Add new Account" )
+            doc_text.append("Qrcode")
+            doc_ref_text.update({u'stock' : doc_text})
+
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Account Create Successful! Please scan the device Qrcode"))
+
+
+
+        elif event.message.text == "No New Account" and doc_single_text["stock"][0] == "ADD" :
+            db.collection(u'userTextTree').document(user_id).delete()
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Thank you"))
+
+
+        # Step2-exist Account
+        # Exist Account( Yes / No )
+        elif event.message.text == "Add new Device in your account" and ( doc_single_text["stock"][0] == "ADD" ) :
+
+
+            doc_ref_text = db.collection(u'userTextTree').document(user_id)
+            doc_text = doc_ref_text.get().to_dict()["stock"]
+            doc_text.append( "Qrcode" )
+            doc_ref_text.update({u'stock' : doc_text})
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Please scan the device Qrcode!"))
+
+        elif event.message.text == "No need add in account" and doc_single_text["stock"][0] == "ADD" :
+            db.collection(u'userTextTree').document(user_id).delete()
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Thank you"))
+
+
+    elif event.message.text == "bot:delete" or ( doc_single_text is not None and doc_single_text["stock"][0] == "DELETE"  ) :
         print("bot:delete")
         # delete()
-    elif event.message.text == "bot:list" and doc_single == None  :
-        print("bot:list")
-        # list()
-    else :
+
+        doc_ref = db.collection(u'user').document(user_id)
+        doc= doc_ref.get()
+        doc_single = doc.to_dict()
+
+        doc_ref_text = db.collection(u'userTextTree').document(user_id)
+        doc_text = doc_ref_text.get()
+        doc_single_text = doc_text.to_dict()
+
+        #list()
+        if doc_single is not None :
+            if doc_single_text is None :
+                templist = list()
+                if doc_single["device-switch"]["situation"] is True :
+                    templist.append("device-switch")
+
+                if doc_single["heating"]["situation"] is True:
+                    templist.append("heating")
+
+                if doc_single["light-switch"]["situation"] is True:
+                    templist.append("light-switch")
+
+                if doc_single["lock"]["situation"] is True:
+                    templist.append("lock")
+
+                tempArray = list()
+                tempArray.append("DELETE")
+                now = datetime.datetime.now()
+
+                doc_ref_text.set({u'stock': tempArray, u'time': now})
+
+                line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type device in one-time"))
+
+                for x in templist :
+                    line_bot_api.push_message(user_id, TextSendMessage("Availible Device : " + x ))
+
+            elif doc_single_text["stock"][0] == "DELETE" and event.message.text == "device-switch" or  event.message.text == "heating" or event.message.text == "light-switch" or event.message.text == "lock":
+                if event.message.text == "device-switch" :
+                    doc_ref.update({ u'device-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
+
+                elif event.message.text == "heating" :
+                    doc_ref.update({ u'heating': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
+
+                elif event.message.text == "light-switch" :
+                    doc_ref.update({ u'light-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
+
+                elif event.message.text == "lock" :
+                    doc_ref.update({ u'lock': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
+
+                line_bot_api.reply_message(event.reply_token, TextSendMessage("Delete Successful"))
+                db.collection(u'userTextTree').document(user_id).delete()
+
+            else :
+                line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type in right device"))
+
+        else :
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
+
+    elif event.message.text == "bot:list":
+        doc_ref = db.collection(u'user').document(user_id)
+        doc = doc_ref.get()
+        doc_single = doc.to_dict()
+
+        if doc_single is not None :
+            templist = list()
+            if doc_single["device-switch"]["situation"] is True:
+                templist.append("device-switch")
+
+            if doc_single["heating"]["situation"] is True:
+                templist.append("heating")
+
+            if doc_single["light-switch"]["situation"] is True:
+                templist.append("light-switch")
+
+            if doc_single["lock"]["situation"] is True:
+                templist.append("lock")
+
+            tempArray = list()
+            tempArray.append("DELETE")
+            now = datetime.datetime.now()
+
+            doc_ref_text.set({u'stock': tempArray, u'time': now})
+            line_bot_api.push_message(user_id, TextSendMessage("Availible Device : "))
+            for x in templist:
+                line_bot_api.push_message(user_id, TextSendMessage(x))
+
+        else :
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
+
+
+    elif doc_single_text is None :
         line_bot_api.reply_message(event.reply_token, TextSendMessage(NLP(event, event.message.text, user_id)))
 
-
-
-    # line_bot_api.reply_message(event.reply_token, TextSendMessage("Botty cannot read what you are talking about!"))
-    
+    else :
+        line_bot_api.reply_message(event.reply_token, TextSendMessage( "Internal Error" ))
 
 
 @handler.add(MessageEvent, message=StickerMessage)
@@ -219,90 +373,84 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello image"))
-    id = event.message.id
-    message_content = line_bot_api.get_message_content(id)
 
-    file_path = id + ".jpg"
-    print( file_path )
-    with open(file_path, 'wb') as fd:
-        for chunk in message_content.iter_content(chunk_size=1024):
-            if chunk:
-                fd.write(chunk)
 
-    im = Image.open(file_path)
-    im.save('result.png')
-    CODE = decode(Image.open('result.png'))
+    # get data
+    user_id = str(event)
+    user_id = ast.literal_eval(user_id)
+    user_id = user_id['source']['userId']
 
-    for x in CODE :
-        print(x)
+    doc_ref_text = db.collection(u'userTextTree').document(user_id)
+    doc_text = doc_ref_text.get()
+    doc_single_text = doc_text.to_dict()
 
-    string_of_code= str(CODE[0][0])
+    if doc_single_text is not None and doc_single_text["stock"][len( doc_single_text["stock"] ) - 1 ] == "Qrcode":
+        id = event.message.id
+        message_content = line_bot_api.get_message_content(id)
 
-    print(string_of_code)
-    code = string_of_code[2:len(string_of_code)-1]
-    print(code)
+        file_path = id + ".jpg"
+        print( file_path )
+        with open(file_path, 'wb') as fd:
+            for chunk in message_content.iter_content(chunk_size=1024):
+                if chunk:
+                    fd.write(chunk)
 
-    if os.path.exists(file_path) :
-        os.remove(file_path)
-    else:
-        print("The file does not exist")
+        im = Image.open(file_path)
+        im.save('result.png')
 
-    if os.path.exists('result.png'):
-        os.remove('result.png')
-    else:
-        print("The file does not exist")
+        code = decode(Image.open('result.png'))
 
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(code))
+        if len(code) > 0 :
 
-def add_dataAction(user_id, profile,event):
+            for x in code :
+                print(x)
 
-    check_user_exist(user_id, profile,event)
+            string_of_code= str(code[0][0])
+            #{ 'type' : 'device.switch' , 'room' :  'bathroom', 'UUID' : '4564654654654' }
+            #print(string_of_code)
+            #print(code)
+            try:
+                code = string_of_code[2:len(string_of_code) - 1 ]
+                code = ast.literal_eval( code  )
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                else:
+                    print("The file does not exist")
 
-def check_user_exist(user_id, profile, event):
-    # already_exist
+                if os.path.exists('result.png'):
+                    os.remove('result.png')
+                else:
+                    print("The file does not exist")
 
-    # conncect to cloud firestore database
-    doc_ref = db.collection(u'user').document(user_id)
-    doc = doc_ref.get()
-    doc_single = doc.to_dict()
-    # print(type(doc_single))
-    # print(doc_single["bedroom"]["device"])
+                doc_ref = db.collection(u'user').document(user_id)
+                try :
+                    print(type(code))
+                    print(code["type"])
+                    if doc_ref.get().to_dict()[code["type"]]["situation"] is False:
+                        doc_ref.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
+                        line_bot_api.reply_message(event.reply_token,
+                                                   TextSendMessage("Add Device SuccessFul!\n Type : " + code["type"],
+                                                                   "Room : " + code["room"]))
+                    else:
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage("Scan success, But you have existed Device"))
 
-    # not_exist
-    if doc_single is None:
-        #Botty_Main.line_bot_api.reply_message(event.reply_token, TextSendMessage("Hello, Welcome to botty. Do you want to join us ?"))
-        Confirm_template = TemplateSendMessage(
-            alt_text='Confirm Notice',
-            template=ConfirmTemplate(
-                title='這是ConfirmTemplate',
-                text='Hello, welcome to botty. Do you want to join us ?',
-                actions=[
-                    PostbackTemplateAction(
-                        label='Sure',
-                        text='Sure',
-                        data='action=buy&itemid=1'
-                    ),
-                    MessageTemplateAction(
-                        label='Later',
-                        text='Later'
-                    )
-                ]
-            )
-        )
-        line_bot_api.reply_message(event.reply_token, Confirm_template)
-        """"
-        default = '*******'
-        doc_ref = db.collection(u'user').document(user_id)
-        doc_ref.set({
-            u'lights.switch': True,
-            u'lock' : True,
-            u'heating' : True,
-            u'device.switch': True
-        })
-        """
-    else:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage("account is exist"))
+                    db.collection(u'userTextTree').document(user_id).delete()
 
+                except TypeError :
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage("Scan Failure,This is not our Qrcode . please scan device qrcode again!"))
+            except SyntaxError :
+               line_bot_api.reply_message(event.reply_token,TextSendMessage("Scan Failure,This is not our Qrcode( Value Error ) . please scan device qrcode again!"))
+
+
+
+        else :
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Scan Failure, please scan device qrcode again!"))
+
+
+
+
+    else :
+        line_bot_api.reply_message(event.reply_token, TextSendMessage( "Nice pic" ))
 
 @handler.add(MessageEvent, message=AudioMessage)
 def handle_message(event):
@@ -371,7 +519,48 @@ def handle_message(event):
 
     line_bot_api.reply_message(event.reply_token, TextSendMessage( NLP(event, audio_result, user_id)  ) )
 
+def add_dataAction(user_id, profile,event):
+
+    check_user_exist(user_id)
+
+def check_user_exist(user_id):
+    # already_exist
+
+    doc_ref = db.collection(u'user').document(user_id)
+    doc = doc_ref.get()
+    doc_single = doc.to_dict()
+
+
+    # not_exist
+    if doc_single is not None:
+        return True
+    else :
+        return False
+
+
+def check_userTextTree(user_id):
+    doc_ref_text = db.collection(u'userTextTree').document(user_id)
+    doc_text = doc_ref_text.get()
+    doc_single_text = doc_text.to_dict()
+
+    if doc_single_text is None:
+        tempArray = list()
+        tempArray.append("ADD")
+
+        now = datetime.datetime.now()
+        doc_ref_text.set({u'stock' : tempArray, u'time' : now })
+
+        return False
+    else :
+        return True
+
 
 
 if __name__ == "__main__":
     app.run()
+
+
+    
+    
+    
+

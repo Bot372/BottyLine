@@ -4,22 +4,21 @@ import requests
 import firebase_admin
 from firebase_admin import credentials, firestore
 import google.cloud.exceptions # thrown exception
-
+import datetime
 # Fetch the service account key JSON file contents
 FIREBASE_TOKEN = "bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json"
 cred = credentials.Certificate( FIREBASE_TOKEN )
 
 # Initialize the app with a service account, granting admin privileges
-default_app_1 = firebase_admin.initialize_app(cred)
-
-default_app_2 = firebase_admin.initialize_app(cred)
+default_app = firebase_admin.initialize_app(cred)
 
 # conncect to cloud firestore database
 db = firestore.client()
-doc_ref = db.collection(u'userTextTree').document(u'Ir44HEvRBXVJOl5wRPj7')
+"""
+doc_ref = db.collection(u'userTextTree').document(u'455544544')
 doc = doc_ref.get()
 doc_single = doc.to_dict()
-#print( type( doc ) )
+print( type( doc_single["time"] ) )
 
 #array get
 testArray = doc_single["abc"]
@@ -38,13 +37,17 @@ doc_ref.update({u'test' : testArray})
 #testArray.remove("Add")
 
 #print( doc_single )
+"""
+doc_ref_text = db.collection(u'userTextTree').document("455544544")
+doc_text = doc_ref_text.get()
+doc_single_text = doc_text.to_dict()
 
+tempArray = list()
+tempArray.append("ADD")
 
-
-
-
-
-
+now = datetime.datetime.now()
+print(now)
+doc_ref_text.set({u'stock': tempArray, u'time' : now})
 
 '''
 # Add Data Base
