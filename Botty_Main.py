@@ -286,11 +286,14 @@ def handle_message(event):
                 now = datetime.datetime.now()
 
                 doc_ref_text.set({u'stock': tempArray, u'time': now})
+                if (len(templist) > 0):
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type device in one-time"))
 
-                line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type device in one-time"))
-
-                for x in templist :
-                    line_bot_api.push_message(user_id, TextSendMessage("Availible Device : " + x ))
+                    for x in templist :
+                        line_bot_api.push_message(user_id, TextSendMessage("Availible Device : " + x ))
+                else :
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
+                    db.collection(u'userTextTree').document(user_id).delete()
 
             elif doc_single_text["stock"][0] == "DELETE" and event.message.text == "device-switch" or  event.message.text == "heating" or event.message.text == "light-switch" or event.message.text == "lock":
                 if event.message.text == "device-switch" :
@@ -311,8 +314,7 @@ def handle_message(event):
             else :
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type in right device"))
 
-        else :
-            line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
+
 
     elif event.message.text == "bot:list":
         doc_ref = db.collection(u'user').document(user_id)
