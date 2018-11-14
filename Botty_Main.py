@@ -333,13 +333,12 @@ def handle_message(event):
             if doc_single["lock"]["situation"] is True:
                 templist.append("lock")
 
-
-            line_bot_api.push_message(user_id, TextSendMessage("Availible Device : "))
-            for x in templist:
-                line_bot_api.push_message(user_id, TextSendMessage(x))
-
-        else :
-            line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
+            if ( len(templist) > 0 ) :
+                line_bot_api.push_message(user_id, TextSendMessage("Availible Device : "))
+                for x in templist:
+                    line_bot_api.push_message(user_id, TextSendMessage(x))
+            else :
+                line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
 
 
     elif doc_single_text is None :
