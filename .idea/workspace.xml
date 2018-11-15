@@ -60,9 +60,9 @@
           <entry key="project.closed" value="5" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.4" value="7" />
+          <entry key="project.open.time.4" value="8" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -81,12 +81,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="LINE_drama" value="212" />
-          <entry key="py" value="9337" />
+          <entry key="py" value="9338" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="9549" />
+          <entry key="Python" value="9550" />
         </counts>
       </usages-collector>
     </session>
@@ -96,7 +96,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1482">
+            <state relative-caret-position="817">
               <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
               <folding>
                 <element signature="e#1#12#0" expanded="true" />
@@ -105,21 +105,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Botty_Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4180">
-              <caret line="292" column="30" selection-start-line="292" selection-start-column="30" selection-end-line="292" selection-end-column="30" />
+            <state relative-caret-position="795">
+              <caret line="428" column="45" lean-forward="true" selection-start-line="428" selection-start-column="45" selection-end-line="428" selection-end-column="45" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
-                <element signature="e#2427#2829#0" />
-                <element signature="e#2875#5647#0" />
-                <element signature="e#11953#12872#0" />
-                <element signature="e#9277#10067#0" />
-                <element signature="e#11189#13072#0" />
-                <marker date="1542216458807" expanded="true" signature="2850:5684" ph="..." />
-                <marker date="1542216458807" expanded="true" signature="20888:21284" ph="..." />
-                <marker date="1542216458807" expanded="true" signature="21283:21284" ph="..." />
+                <marker date="1542251216917" expanded="true" signature="2850:5684" ph="..." />
+                <marker date="1542251216917" expanded="true" signature="20887:21283" ph="..." />
+                <marker date="1542251216917" expanded="true" signature="21282:21283" ph="..." />
               </folding>
             </state>
           </provider>
@@ -132,15 +127,6 @@
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/smarthome/weather.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="1" column="37" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -269,6 +255,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -294,7 +281,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -427,10 +413,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23287672" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23287672" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -544,6 +529,17 @@
     <entry file="file://$PROJECT_DIR$/pyzbar/pyzbar.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/result.png" />
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="817">
+          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
+          <folding>
+            <element signature="e#1#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/smarthome/smarthomeDevice.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
@@ -597,34 +593,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/result.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
+    <entry file="file://$PROJECT_DIR$/smarthome/weather.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1482">
-          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-          <folding>
-            <element signature="e#1#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Botty_Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4180">
-          <caret line="292" column="30" selection-start-line="292" selection-start-column="30" selection-end-line="292" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <element signature="e#2427#2829#0" />
-            <element signature="e#2875#5647#0" />
-            <element signature="e#11953#12872#0" />
-            <element signature="e#9277#10067#0" />
-            <element signature="e#11189#13072#0" />
-            <marker date="1542216458807" expanded="true" signature="2850:5684" ph="..." />
-            <marker date="1542216458807" expanded="true" signature="20888:21284" ph="..." />
-            <marker date="1542216458807" expanded="true" signature="21283:21284" ph="..." />
-          </folding>
+        <state relative-caret-position="19">
+          <caret line="1" column="37" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -637,10 +609,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/smarthome/weather.py">
+    <entry file="file://$PROJECT_DIR$/Botty_Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="37" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
+        <state relative-caret-position="795">
+          <caret line="428" column="45" lean-forward="true" selection-start-line="428" selection-start-column="45" selection-end-line="428" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <marker date="1542251216917" expanded="true" signature="2850:5684" ph="..." />
+            <marker date="1542251216917" expanded="true" signature="20887:21283" ph="..." />
+            <marker date="1542251216917" expanded="true" signature="21282:21283" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
