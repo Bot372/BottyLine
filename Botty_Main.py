@@ -426,7 +426,7 @@ def handle_message(event):
                     if doc_ref.get().to_dict()[code["type"]]["situation"] is False:
                         doc_ref.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
                         line_bot_api.reply_message(event.reply_token,
-                                                   TextSendMessage("Add Device SuccessFul!\n Type : " + code["type"],
+                                                   TextSendMessage("Add Device Successful!\nType : " + code["type"],
                                                                    "Room : " + code["room"]))
                     else:
                         line_bot_api.reply_message(event.reply_token, TextSendMessage("Scan success, But you have existed Device"))
