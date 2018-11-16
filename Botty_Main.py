@@ -1,65 +1,61 @@
+""" Design by BottyLab"""
+
 from flask import Flask, request, abort
-
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
-from linebot import LineBotApi
 
-
-import S_R_Upload
-import boto3
-from botocore.client import Config
-import requests
-import os
-import sys
-import random
-import ast
-import json
-import apiai  # Dialog Flow Apis
-import datetime
+""" Qrcode """
 
 from pyzbar.pyzbar import *
 from PIL import Image
 
+import S_R_Upload
+import boto3
+from botocore.client import Config
+
+import os, sys, random, ast, json, datetime
+import apiai  # Dialog Flow Apis
+
+from bs4 import BeautifulSoup
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+
 #add the smarthome file to current system path
+from smarthome import smarthomeLight, smarthomeHeat, smarthomeDevice, smarthomeLock, weather, news
 testdir = os.path.dirname(os.path.realpath(__file__)) + "\\smarthome"
 sys.path.insert(0, testdir )
 
-from smarthome import smarthomeLight, smarthomeHeat, smarthomeDevice, smarthomeLock, weather, news
 
+# Initialize the app with a service account, granting admin privileges
 import firebase_admin
 from firebase_admin import credentials, firestore
-
 #Firebase Api Fetch the service account key JSON file contents
-
 FIREBASE_TOKEN = "bottyline-firebase-adminsdk-bmlr3-abeb3c8d54.json"
 cred = credentials.Certificate(FIREBASE_TOKEN)
-# Initialize the app with a service account, granting admin privileges
 default_app = firebase_admin.initialize_app(cred)
+
 # conncect to cloud firestore database
 db = firestore.client()  # conncect to cloud firestore database
 
 
 app = Flask(__name__)
-
 line_bot_api = LineBotApi(
     '8PhyG0TWWeOZ1hRJb4618e3UE6jSN+KNdpd8MJjaHUs/moHgGFfvyfv82whJQh0Ebw8fyKODATEbp8fNsFWzydi1S6VMssEB74m6nP2FCpqeOtkpLqfI+O6fx2aIwMma4sXFvw9dY9O53JpoTjda1wdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('e2a156e78a65ba2ffa4eb65c85da5b9f')
 
-
-audio_result = ""
-
+""" initailize amazon bucket """
 ACCESS_KEY_ID = 'AKIAIJKNMECREABAM4EA'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'botty-bucket'
 
+
 #Dialog flow Api
 ai = apiai.ApiAI('35d3ac64264d445bb2fd9f04361149b8')
+
+audio_result = ""
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -161,8 +157,6 @@ def NLP(  event, user_text, user_id ) :
     return responseMessenge
 
 
-
-
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
@@ -178,7 +172,7 @@ def handle_message(event):
     doc_text = doc_ref_text.get()
     doc_single_text = doc_text.to_dict()
     if doc_single_text is not None :
-        print(  doc_single_text["stock"][0] )
+        print(  doc_single_text["stock"] )
 
 
 
@@ -314,8 +308,6 @@ def handle_message(event):
             else :
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type in right device"))
 
-
-
     elif event.message.text == "bot:list":
         doc_ref = db.collection(u'user').document(user_id)
         doc = doc_ref.get()
@@ -343,12 +335,20 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
 
 
+    elif event.message.text == "beauty":
+        content = ptt_beauty()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
+
+
+
     elif doc_single_text is None :
         line_bot_api.reply_message(event.reply_token, TextSendMessage(NLP(event, event.message.text, user_id)))
 
     else :
         line_bot_api.reply_message(event.reply_token, TextSendMessage( "Internal Error" ))
-
 
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_message(event):
@@ -423,11 +423,16 @@ def handle_message(event):
                 try :
                     print(type(code))
                     print(code["type"])
+
+                    # not finish
+                    # 1 check device whether has been register before.
+                    # 2 use flex-message to reply( to be more design) - use photos
+
+
                     if doc_ref.get().to_dict()[code["type"]]["situation"] is False:
+
                         doc_ref.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
-                        line_bot_api.reply_message(event.reply_token,
-                                                   TextSendMessage("Add Device Successful!\nType : " + code["type"],
-                                                                   "Room : " + code["room"]))
+                        line_bot_api.reply_message(event.reply_token,TextSendMessage("Add Device Successful!\nType : " + code["type"],"Room : " + code["room"]))
                     else:
                         line_bot_api.reply_message(event.reply_token, TextSendMessage("Scan success, But you have existed Device"))
 
@@ -551,7 +556,79 @@ def check_userTextTree(user_id):
     else :
         return True
 
+""" ptt beauty """
 
+
+def get_page_number(content):
+    start_index = content.find('index')
+    end_index = content.find('.html')
+    page_number = content[start_index + 5: end_index]
+    return int(page_number) + 1
+
+def craw_page(res, push_rate):
+    soup_ = BeautifulSoup(res.text, 'html.parser')
+    article_seq = []
+    for r_ent in soup_.find_all(class_="r-ent"):
+        try:
+            # 先得到每篇文章的篇url
+            link = r_ent.find('a')['href']
+            if link:
+                # 確定得到url再去抓 標題 以及 推文數
+                title = r_ent.find(class_="title").text.strip()
+                rate = r_ent.find(class_="nrec").text
+                url = 'https://www.ptt.cc' + link
+                if rate:
+                    rate = 100 if rate.startswith('爆') else rate
+                    rate = -1 * int(rate[1]) if rate.startswith('X') else rate
+                else:
+                    rate = 0
+                # 比對推文數
+                if int(rate) >= push_rate:
+                    article_seq.append({
+                        'title': title,
+                        'url': url,
+                        'rate': rate,
+                    })
+        except Exception as e:
+            # print('crawPage function error:',r_ent.find(class_="title").text.strip())
+            print('本文已被刪除', e)
+    return article_seq
+
+def ptt_beauty():
+    rs = requests.session()
+    res = rs.get('https://www.ptt.cc/bbs/Beauty/index.html', verify=False)
+    soup = BeautifulSoup(res.text, 'html.parser')
+    all_page_url = soup.select('.btn.wide')[1]['href']
+    start_page = get_page_number(all_page_url)
+    page_term = 2  # crawler count
+    push_rate = 10  # 推文
+    index_list = []
+    article_list = []
+    for page in range(start_page, start_page - page_term, -1):
+        page_url = 'https://www.ptt.cc/bbs/Beauty/index{}.html'.format(page)
+        index_list.append(page_url)
+
+    # 抓取 文章標題 網址 推文數
+    while index_list:
+        index = index_list.pop(0)
+        res = rs.get(index, verify=False)
+        # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
+        if res.status_code != 200:
+            index_list.append(index)
+            # print u'error_URL:',index
+            # time.sleep(1)
+        else:
+            article_list = craw_page(res, push_rate)
+            # print u'OK_URL:', index
+            # time.sleep(0.05)
+    content = ''
+    for article in article_list:
+        data = '[{} push] {}\n{}\n\n'.format(article.get('rate', None), article.get('title', None),
+                                             article.get('url', None))
+        content += data
+    return content
+
+""" ptt beauty """
 
 if __name__ == "__main__":
     app.run()

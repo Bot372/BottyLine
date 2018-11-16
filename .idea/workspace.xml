@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/Botty_Main.py" line="214" />
+    <bookmark url="file://$PROJECT_DIR$/Botty_Main.py" line="208" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ae25b009-8836-4f09-a4c0-6e3d5ef18a16" name="Default Changelist" comment="" />
+    <list default="true" id="ae25b009-8836-4f09-a4c0-6e3d5ef18a16" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Botty_Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Botty_Main.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,138 +61,66 @@
     <session id="404188595">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.4" value="8" />
+          <entry key="project.open.time.4" value="10" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="11" />
+          <entry key="project.opened" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="LINE_drama" value="1" />
           <entry key="png" value="1" />
-          <entry key="py" value="28" />
+          <entry key="py" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="1" />
-          <entry key="Python" value="29" />
+          <entry key="Python" value="33" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="LINE_drama" value="212" />
-          <entry key="py" value="9338" />
+          <entry key="py" value="9754" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="9550" />
+          <entry key="Python" value="9966" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="817">
-              <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-              <folding>
-                <element signature="e#1#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Botty_Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="428" column="45" lean-forward="true" selection-start-line="428" selection-start-column="45" selection-end-line="428" selection-end-column="45" />
+            <state relative-caret-position="-1915">
+              <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
               <folding>
-                <element signature="e#0#39#0" expanded="true" />
-                <marker date="1542251216917" expanded="true" signature="2850:5684" ph="..." />
-                <marker date="1542251216917" expanded="true" signature="20887:21283" ph="..." />
-                <marker date="1542251216917" expanded="true" signature="21282:21283" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/S_R_Upload.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smarthome/smarthomeDevice.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smarthome/smarthomeHeat.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smarthome/smarthomeLight.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smarthome/smarthomeLock.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_action.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="26" column="36" selection-end-line="51" />
-              <folding>
-                <marker date="1542120267300" expanded="true" signature="43:46" ph="..." />
-                <marker date="1542120267300" expanded="true" signature="43:49" ph="..." />
-                <marker date="1542120267300" expanded="true" signature="138:143" ph="..." />
-                <marker date="1542120267300" expanded="true" signature="1295:1303" ph="..." />
+                <element signature="e#28#67#0" expanded="true" />
+                <element signature="e#1764#2178#0" />
+                <element signature="e#2407#2809#0" />
+                <element signature="e#2855#5679#0" />
+                <element signature="e#6356#10090#0" />
+                <element signature="e#10227#13117#0" />
+                <element signature="e#13172#14147#0" />
+                <element signature="e#14484#15274#0" />
+                <element signature="e#15356#18617#0" />
+                <element signature="e#18700#20583#0" />
+                <element signature="e#20634#20659#0" />
+                <element signature="e#20696#20923#0" />
+                <element signature="e#20963#21350#0" />
+                <element signature="e#21682#21841#0" />
+                <element signature="e#21857#22922#0" />
+                <marker date="1542345454206" expanded="true" signature="3016:5848" ph="..." />
+                <marker date="1542345454206" expanded="true" signature="21318:24308" ph="..." />
+                <marker date="1542345454206" expanded="true" signature="24307:24308" ph="..." />
               </folding>
             </state>
           </provider>
@@ -245,8 +177,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="352" />
-    <option name="y" value="-8" />
+    <option name="x" value="-33" />
+    <option name="y" value="-14" />
     <option name="width" value="1927" />
     <option name="height" value="860" />
   </component>
@@ -255,24 +187,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
-            <path>
-              <item name="bottyline" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bottyline" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bottyline" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bottyline" type="462c0819:PsiDirectoryNode" />
-              <item name="Entity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bottyline" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bottyline" type="462c0819:PsiDirectoryNode" />
-              <item name="Model" type="462c0819:PsiDirectoryNode" />
-            </path>
             <path>
               <item name="bottyline" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
@@ -281,10 +198,11 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../auto_crawler_ptt_beauty_image-master" />
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
   </component>
   <component name="RunDashboard">
@@ -413,14 +331,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23287672" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23287672" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.040173724" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2247557" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2247557" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3995657" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -445,13 +364,7 @@
     <entry file="file://$PROJECT_DIR$/templates/IOT.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/qrtools/qrtools.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/qrtools/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/LINE_drama">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="7" selection-start-line="7" selection-end-line="14" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/LINE_drama" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/flask_sqlalchemy/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="14611">
@@ -466,13 +379,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="358">
           <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/messeage_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -494,13 +400,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
           <caret line="24" column="19" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testNLP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="35" column="67" selection-start-line="35" selection-start-column="67" selection-end-line="35" selection-end-column="67" />
         </state>
       </provider>
     </entry>
@@ -534,62 +433,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="817">
           <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-          <folding>
-            <element signature="e#1#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smarthome/smarthomeDevice.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smarthome/smarthomeHeat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smarthome/smarthomeLight.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/smarthome/smarthomeLock.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_action.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="26" column="36" selection-end-line="51" />
-          <folding>
-            <marker date="1542120267300" expanded="true" signature="43:46" ph="..." />
-            <marker date="1542120267300" expanded="true" signature="43:49" ph="..." />
-            <marker date="1542120267300" expanded="true" signature="138:143" ph="..." />
-            <marker date="1542120267300" expanded="true" signature="1295:1303" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -600,24 +443,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/S_R_Upload.py">
+    <entry file="file://$PROJECT_DIR$/messeage_test.py" />
+    <entry file="file://$PROJECT_DIR$/data_action.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="494">
+          <caret line="26" column="36" selection-end-line="51" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/smarthome/smarthomeLock.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smarthome/smarthomeLight.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smarthome/smarthomeHeat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smarthome/smarthomeDevice.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/S_R_Upload.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Upload_Text.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testNLP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="42" column="12" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Speech_Website.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/Botty_Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="428" column="45" lean-forward="true" selection-start-line="428" selection-start-column="45" selection-end-line="428" selection-end-column="45" />
+        <state relative-caret-position="-1915">
+          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
           <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <marker date="1542251216917" expanded="true" signature="2850:5684" ph="..." />
-            <marker date="1542251216917" expanded="true" signature="20887:21283" ph="..." />
-            <marker date="1542251216917" expanded="true" signature="21282:21283" ph="..." />
+            <element signature="e#28#67#0" expanded="true" />
+            <element signature="e#1764#2178#0" />
+            <element signature="e#2407#2809#0" />
+            <element signature="e#2855#5679#0" />
+            <element signature="e#6356#10090#0" />
+            <element signature="e#10227#13117#0" />
+            <element signature="e#13172#14147#0" />
+            <element signature="e#14484#15274#0" />
+            <element signature="e#15356#18617#0" />
+            <element signature="e#18700#20583#0" />
+            <element signature="e#20634#20659#0" />
+            <element signature="e#20696#20923#0" />
+            <element signature="e#20963#21350#0" />
+            <element signature="e#21682#21841#0" />
+            <element signature="e#21857#22922#0" />
+            <marker date="1542345454206" expanded="true" signature="3016:5848" ph="..." />
+            <marker date="1542345454206" expanded="true" signature="21318:24308" ph="..." />
+            <marker date="1542345454206" expanded="true" signature="24307:24308" ph="..." />
           </folding>
         </state>
       </provider>
