@@ -17,11 +17,12 @@ from botocore.client import Config
 import os, sys, random, ast, json, datetime
 import apiai  # Dialog Flow Apis
 
+"""
 from bs4 import BeautifulSoup
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
+"""
 
 #add the smarthome file to current system path
 from smarthome import smarthomeLight, smarthomeHeat, smarthomeDevice, smarthomeLock, weather, news
