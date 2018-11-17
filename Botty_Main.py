@@ -16,7 +16,7 @@ from botocore.client import Config
 
 import os, sys, random, ast, json, datetime
 import apiai  # Dialog Flow Apis
-
+from googletrans import Translator # Google translate
 
 from bs4 import BeautifulSoup
 import requests
@@ -25,9 +25,10 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 #add the smarthome file to current system path
-from smarthome import smarthomeLight, smarthomeHeat, smarthomeDevice, smarthomeLock, weather, news
 testdir = os.path.dirname(os.path.realpath(__file__)) + "\\smarthome"
 sys.path.insert(0, testdir )
+from smarthome import smarthomeLight, smarthomeHeat, smarthomeDevice, smarthomeLock, weather, news
+import Database
 
 
 # Initialize the app with a service account, granting admin privileges
@@ -54,9 +55,16 @@ BUCKET_NAME = 'botty-bucket'
 
 
 #Dialog flow Api
-ai = apiai.ApiAI('35d3ac64264d445bb2fd9f04361149b8')
+#Dialog flow Api
+#smartHome, translate APi : 411c390e69104ae69e51052c92c8ad5a
+#weather   Api : bf94e2e4f04243c4b5353fc559c39ad0
+ai = apiai.ApiAI('411c390e69104ae69e51052c92c8ad5a')
 
 audio_result = ""
+
+@app.route("/", methods=['GET'])
+def hello():
+    return "Hello World!"
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -115,8 +123,10 @@ def NLP(  event, user_text, user_id ) :
     }
 
     print(action)
+    if user_text == "南無阿彌陀佛" :
+        responseMessenge = "歡迎加入戰隊"
     # (1) other Type send sticker or telling a joke
-    if action == "input.unknown":
+    elif action == "input.unknown":
         responseMessenge = Diaresponse["result"]["fulfillment"]["messages"]
         responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
         responseMessenge = responseMessenge[0]["speech"]
@@ -147,10 +157,32 @@ def NLP(  event, user_text, user_id ) :
         responseMessenge = device.getSpeech()
     # (3) check the weather
     elif action == "check.weather":
-        responseMessenge = weather.runWeather()
+        weatherMain = weather.Weather( action, Diaresponse["result"]  )
+        weatherMain.runWeather()
+        responseMessenge = weatherMain.getSpeech()
         # (4) check the news
     elif action == "check.news":
         responseMessenge = news.runNews()
+    # translate
+    elif action == "translate.text" :
+        def TranslateText( originalText, destCode ) :
+            with open('translate.json', 'r') as fp:
+                lanCode = json.load(fp)
+
+            translator = Translator()
+            afterText = translator.translate( originalText, dest= lanCode[destCode] )
+
+            return afterText.text
+
+        try :
+            originalText = Diaresponse["result"]["parameters"]["text"]
+            destCode     = Diaresponse["result"]["parameters"]["lang-to"]
+            responseMessenge = TranslateText( originalText, destCode  )
+        except :
+            responseMessenge = "Sorry botty could not translate for you"
+    # tell me a joke
+    elif action == "jokes.get" :
+        responseMessenge = Diaresponse["result"]["fulfillment"]["speech"]
     # Ask about adding new device
     else:
         responseMessenge = "Do you want to add the new IoT device"
@@ -158,7 +190,6 @@ def NLP(  event, user_text, user_id ) :
     return responseMessenge
 
 @handler.add(MessageEvent, message=TextMessage)
-
 def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
 
@@ -216,6 +247,7 @@ def handle_message(event):
                          ,u'light-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}
                          ,u'lock': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
 
+            Database.addSmarthome( user_id ) # Add Empty SmartHome to Database
             #fetch userTextTree and push "AddnewAccount"
             doc_ref_text = db.collection(u'userTextTree').document(user_id)
             doc_text = doc_ref_text.get().to_dict()["stock"]
@@ -292,16 +324,16 @@ def handle_message(event):
             elif doc_single_text["stock"][0] == "DELETE" and event.message.text == "device-switch" or  event.message.text == "heating" or event.message.text == "light-switch" or event.message.text == "lock":
                 if event.message.text == "device-switch" :
                     doc_ref.update({ u'device-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
-
+                    Database.deleteSmarthome( "device", user_id ) # DELETE DATABASE
                 elif event.message.text == "heating" :
                     doc_ref.update({ u'heating': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
-
+                    Database.deleteSmarthome( "heating", user_id)  # DELETE DATABASE
                 elif event.message.text == "light-switch" :
                     doc_ref.update({ u'light-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
-
+                    Database.deleteSmarthome( "light", user_id)  # DELETE DATABASE
                 elif event.message.text == "lock" :
                     doc_ref.update({ u'lock': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
-
+                    Database.deleteSmarthome("lock", user_id)  # DELETE DATABASE
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Delete Successful"))
                 db.collection(u'userTextTree').document(user_id).delete()
 
@@ -470,6 +502,8 @@ def handle_message(event):
                              line_bot_api.push_message(user_id,TextSendMessage("Devive : " + code["UUID"] + "\nis already be registered to -" + doc_devices["owner"]))
                         else :
                             doc_user.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
+                            userToDeviceDict = {'device-switch': 'device', 'heating': 'heating', 'light-switch': 'light', 'lock' : 'lock'  }
+                            Database.addSmarthome(  userToDeviceDict[ code["type"] ] ,user_id ) # ADD SmartHOme to Database
                             doc_ref_devices.set({ code["UUID"] : profile.display_name })
                             line_bot_api.reply_message(event.reply_token,TextSendMessage("Add Device Successful!"))
                             string_to_reply = "welcome"
@@ -580,6 +614,8 @@ def handle_message(event):
 
 
     print("Audio Result: " + audio_result)
+    if audio_result is not "Sphinx could not understand audio" :
+        line_bot_api.push_message( user_id, TextSendMessage( "->" + audio_result))
 
 
 
