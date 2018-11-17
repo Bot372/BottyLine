@@ -10,18 +10,18 @@ def addSmarthome( collection ,userId ) :
         #Add light
         doc_ref = db.collection(u'light').document( userId )
         doc_ref.set({
-            u'bathroom' : True,
-            u'bedroom'  : True,
-            u'kitchen'  : True,
+            u'bathroom' : False,
+            u'bedroom'  : False,
+            u'kitchen'  : False,
             u'time'     : 79
         })
     elif collection == 'lock' :
         #Add lock
         doc_ref = db.collection(u'lock').document( userId )
         doc_ref.set({
-            u'backdoor'   : True,
-            u'frontdoor'  : True,
-            u'windows'    : True,
+            u'backdoor'   : False,
+            u'frontdoor'  : False,
+            u'windows'    : False,
             u'time'       : 79
         })
     elif collection == 'heating' :
