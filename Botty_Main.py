@@ -189,6 +189,8 @@ def NLP(  event, user_text, user_id ) :
 
     return responseMessenge
 
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
@@ -199,14 +201,11 @@ def handle_message(event):
 
     profile = line_bot_api.get_profile(user_id)
 
-
     doc_ref_text = db.collection(u'userTextTree').document(user_id)
     doc_text = doc_ref_text.get()
     doc_single_text = doc_text.to_dict()
     if doc_single_text is not None :
         print(  doc_single_text["stock"] )
-
-
 
     if event.message.text == "bot:add" or ( doc_single_text is not None and doc_single_text["stock"][0] == "ADD"  ) :
 
@@ -242,7 +241,8 @@ def handle_message(event):
             #create new user
             print( "Enter Add new Account" )
             doc_ref = db.collection(u'user').document(user_id)
-            doc_ref.set({ u'device-switch' : { u'situation' : False, u'UUID' : "******", u'TimeStamp' : datetime.datetime.now()}
+            doc_ref.set({ u'user_name' : profile.display_name,
+                          u'device-switch' : { u'situation' : False, u'UUID' : "******", u'TimeStamp' : datetime.datetime.now()}
                          ,u'heating': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}
                          ,u'light-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}
                          ,u'lock': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
@@ -340,6 +340,9 @@ def handle_message(event):
             else :
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type in right device"))
 
+        else :
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("you haven't join in our botty"))
+
     elif event.message.text == "bot:list":
         doc_ref = db.collection(u'user').document(user_id)
         doc = doc_ref.get()
@@ -362,37 +365,12 @@ def handle_message(event):
             if ( len(templist) > 0 ) :
                 line_bot_api.push_message(user_id, TextSendMessage("Availible Device : "))
                 for x in templist:
-                    """
-                    if x == "lock":
-                        url = 'https://botty.today/botty/lock.jpg'
-                        reply = 'lock'
-
-                    else:
-                        url = 'https://botty.today/botty/light.jpeg'
-                        reply = 'light'
-
-
-
-                    Image_Carousel = TemplateSendMessage(
-                        alt_text='Light has been added',
-                        template=ImageCarouselTemplate(
-                            columns=[
-                                ImageCarouselColumn(
-                                    image_url= url,
-                                    action=PostbackTemplateAction(
-                                        label= reply,
-                                        text='-',
-                                        data='-'
-                                    )
-                                ),
-                            ]
-                        )
-                    )
-                    """
                     line_bot_api.push_message(user_id, TextSendMessage(x))
             else :
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
 
+        else :
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("you haven't join in our botty"))
 
     elif event.message.text == "beauty":
         content = ptt_beauty()
@@ -621,7 +599,7 @@ def handle_message(event):
 
     line_bot_api.reply_message(event.reply_token, TextSendMessage( NLP(event, audio_result, user_id)  ) )
 
-def add_dataAction(user_id, profile,event):
+def add_dataAction(user_id):
 
     check_user_exist(user_id)
 
@@ -639,7 +617,6 @@ def check_user_exist(user_id):
     else :
         return False
 
-
 def check_userTextTree(user_id):
     doc_ref_text = db.collection(u'userTextTree').document(user_id)
     doc_text = doc_ref_text.get()
@@ -656,9 +633,11 @@ def check_userTextTree(user_id):
     else :
         return True
 
+
+
+
+
 """ ptt beauty """
-
-
 def get_page_number(content):
     start_index = content.find('index')
     end_index = content.find('.html')
