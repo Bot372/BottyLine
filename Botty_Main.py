@@ -112,15 +112,22 @@ def NLP(  event, user_text, user_id ) :
     # Check the product in the Database
     # 1. fetch the Product list in the database to dict
     doc_ref = db.collection(u'user').document(user_id)
-    doc = doc_ref.get()
-    doc_single = doc.to_dict()
-
-    smartHomeDict = {
-        "lights-switch": doc_single["lights-switch"]["situation"],
-        "lock": doc_single["lock"]["situation"],
-        "heating": doc_single["heating"]["situation"],
-        "device-switch": doc_single["device-switch"]["situation"],
-    }
+    if doc_ref is not None :
+        doc = doc_ref.get()
+        doc_single = doc.to_dict()
+        smartHomeDict = {
+            "lights-switch": doc_single["lights-switch"]["situation"],
+            "lock": doc_single["lock"]["situation"],
+            "heating": doc_single["heating"]["situation"],
+            "device-switch": doc_single["device-switch"]["situation"],
+        }
+    else :
+        smartHomeDict = {
+            "lights-switch": False,
+            "lock": False,
+            "heating": False,
+            "device-switch": False,
+        }
 
     print(action)
     if user_text == "南無阿彌陀佛" :
