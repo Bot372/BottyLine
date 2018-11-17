@@ -116,7 +116,7 @@ def NLP(  event, user_text, user_id ) :
         doc = doc_ref.get()
         doc_single = doc.to_dict()
         smartHomeDict = {
-            "lights-switch": doc_single["lights-switch"]["situation"],
+            "light-switch": doc_single["light-switch"]["situation"],
             "lock": doc_single["lock"]["situation"],
             "heating": doc_single["heating"]["situation"],
             "device-switch": doc_single["device-switch"]["situation"],
