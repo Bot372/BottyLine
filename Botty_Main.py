@@ -254,7 +254,7 @@ def handle_message(event):
                          ,u'light-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}
                          ,u'lock': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
 
-            Database.addSmarthome( user_id ) # Add Empty SmartHome to Database
+            #Database.addSmarthome( user_id ) # Add Empty SmartHome to Database
             #fetch userTextTree and push "AddnewAccount"
             doc_ref_text = db.collection(u'userTextTree').document(user_id)
             doc_text = doc_ref_text.get().to_dict()["stock"]
