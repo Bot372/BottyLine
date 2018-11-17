@@ -16,6 +16,7 @@ dj-static==0.0.6
 Django==2.1.1
 django-heroku==0.3.1
 docutils==0.14
+Faker==1.0.0
 firebase-admin==2.13.0
 Flask==1.0.2
 Flask-Migrate==2.3.0
@@ -38,9 +39,6 @@ idna==2.7
 itsdangerous==0.24
 Jinja2==2.10
 jmespath==0.9.3
-Keras==2.2.4
-Keras-Applications==1.0.6
-Keras-Preprocessing==1.0.5
 line-bot-sdk==1.8.0
 lxml==4.2.5
 Mako==1.0.7
@@ -68,6 +66,7 @@ six==1.11.0
 SpeechRecognition==3.8.1
 SQLAlchemy==1.1.10
 static3==0.7.0
+text-unidecode==1.2
 twnews==0.1.10
 urllib3==1.23
 virtualenv==16.0.0

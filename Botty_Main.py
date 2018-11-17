@@ -28,7 +28,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 testdir = os.path.dirname(os.path.realpath(__file__)) + "\\smarthome"
 sys.path.insert(0, testdir )
 from smarthome import smarthomeLight, smarthomeHeat, smarthomeDevice, smarthomeLock, weather, news
-import Database
+import Database, Party
 
 
 # Initialize the app with a service account, granting admin privileges
@@ -130,7 +130,11 @@ def NLP(  event, user_text, user_id ) :
         }
 
     print(action)
-    if user_text == "南無阿彌陀佛" :
+    if ("PARTY" in user_text.upper()) is True and (smartHomeDict["lights.switch"] == True):
+        line_bot_api.push_message(user_id, TextSendMessage("https://www.youtube.com/watch?v=LlUKzktFYQA"))
+        responseMessenge = Party.runParty(user_id)
+        # 戰隊歌
+    elif user_text == "南無阿彌陀佛" :
         responseMessenge = "歡迎加入戰隊"
     # (1) other Type send sticker or telling a joke
     elif action == "input.unknown":
