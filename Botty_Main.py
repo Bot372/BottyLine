@@ -393,8 +393,8 @@ def handle_message(event):
 
     # wait to fix
     elif doc_single_text is None :
-        #line_bot_api.reply_message(event.reply_token, TextSendMessage(NLP(event, event.message.text, user_id)))
-        line_bot_api.reply_message(event.reply_token,  TextSendMessage( "->" + event.message.text))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(NLP(event, event.message.text, user_id)))
+        #line_bot_api.reply_message(event.reply_token,  TextSendMessage( "->" + event.message.text))
 
 
     else :
