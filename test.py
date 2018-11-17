@@ -12,9 +12,10 @@ cred = credentials.Certificate( FIREBASE_TOKEN )
 # Initialize the app with a service account, granting admin privileges
 default_app = firebase_admin.initialize_app(cred)
 
-# conncect to cloud firestore database
 db = firestore.client()
-"""
+# conncect to cloud firestore database
+""""
+
 doc_ref = db.collection(u'userTextTree').document(u'455544544')
 doc = doc_ref.get()
 doc_single = doc.to_dict()
@@ -37,7 +38,7 @@ doc_ref.update({u'test' : testArray})
 #testArray.remove("Add")
 
 #print( doc_single )
-"""
+
 doc_ref_text = db.collection(u'userTextTree').document("455544544")
 doc_text = doc_ref_text.get()
 doc_single_text = doc_text.to_dict()
@@ -49,7 +50,7 @@ now = datetime.datetime.now()
 print(now)
 doc_ref_text.set({u'stock': tempArray, u'time' : now})
 
-'''
+
 # Add Data Base
 doc_ref = db.collection(u'user').document(u'Uea3e3f87d6adaf08043d5fcaee99d54e')
 doc_ref.set({
@@ -81,9 +82,8 @@ doc_ref.set({
         'temp' : 30
     },
 })
-'''
 
-'''
+
 # Update Data base
 
 id = "Uea3e3f87d6adaf08043d5fcaee99d54e"
@@ -99,28 +99,34 @@ doc_ref.update({
     u'kitchen' : False,
     u'time'    : 79
 })
-'''
 
+"""
 
 #get_check exists()
-#doc_ref = db.collection(u'light').document(u'Ezp9UP0F5dMQiASHLvAZ')
-'''
+
+
 try:
-    id = "8IGNabyDCYnDK3Nb5UtL"
-    doc_ref = db.collection(u'heating').document( id )
-    doc = doc_ref.get()
-    doc_single = doc.to_dict()
-    #print(doc_single)
-    print(doc_single["bedroom"]["device"])
+
+    #id = "8IGNabyDCYnDK3Nb5UtL"
+    #doc_ref = db.collection(u'heating').document( id )
+    #doc = doc_ref.get()
+    #doc_single = doc.to_dict()
+    # [START get_check_exists]
+    doc_ref = db.collection(u'devices_id').document(u'123456')
+
+
+
+
+
 except google.cloud.exceptions.NotFound:
     print( u'No such Document!' )
-'''
 
 
 
 
 
-'''
+
+""""
 # fetch all the data
 try:
     users_ref = db.collection(u'heating')
@@ -130,24 +136,23 @@ try:
     #get the Data from firebase
 except google.cloud.exceptions.NotFound:
     print( u'NO such document!' )
-'''
 
 
-'''
+
+
+ 
 # delete single doc
 db.collection(u'user').document(u'Uea3e3f87d6adaf08043d5fcaee99d54e').delete()
-'''
 
 
-"""
+
+
 #delete field
 doc_ref = db.collection(u'user').document(u'KzB4qhkkLp5a6VWEyX81')
 doc_ref.update({
     u'device.device' : firestore.DELETE_FIELD
 })
-"""
 
-"""
 #delete_full_collection
 def delete_full_collection():
     db = firestore.Client()
@@ -168,5 +173,3 @@ def delete_full_collection():
 
     delete_collection(db.collection(u'cities'), 10)
 """
-
- 

@@ -17,12 +17,12 @@ from botocore.client import Config
 import os, sys, random, ast, json, datetime
 import apiai  # Dialog Flow Apis
 
-"""
+
 from bs4 import BeautifulSoup
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-"""
+
 
 #add the smarthome file to current system path
 from smarthome import smarthomeLight, smarthomeHeat, smarthomeDevice, smarthomeLock, weather, news
@@ -108,10 +108,10 @@ def NLP(  event, user_text, user_id ) :
     doc_single = doc.to_dict()
 
     smartHomeDict = {
-        "lights.switch": doc_single["lights.switch"]["situation"],
+        "lights-switch": doc_single["lights-switch"]["situation"],
         "lock": doc_single["lock"]["situation"],
         "heating": doc_single["heating"]["situation"],
-        "device.switch": doc_single["device.switch"]["situation"],
+        "device-switch": doc_single["device-switch"]["situation"],
     }
 
     print(action)
@@ -126,7 +126,7 @@ def NLP(  event, user_text, user_id ) :
         responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
         responseMessenge = responseMessenge[0]["speech"]
     # (Iot-1) smart home Light
-    elif action[0:23] == "smarthome.lights.switch" and smartHomeDict["lights.switch"] == True:
+    elif action[0:23] == "smarthome.lights-switch" and smartHomeDict["lights-switch"] == True:
         light = smarthomeLight.Light(action, Diaresponse["result"], user_id)
         light.runSmarthome_Light()
         responseMessenge = light.getSpeech()
@@ -141,7 +141,7 @@ def NLP(  event, user_text, user_id ) :
         heat.runSmarthome_Heat()
         responseMessenge = heat.getSpeech()
     # (Iot-4) smart home device
-    elif action[0:23] == "smarthome.device.switch" and smartHomeDict["device.switch"] == True:
+    elif action[0:23] == "smarthome.device-switch" and smartHomeDict["device-switch"] == True:
         device = smarthomeDevice.Device(action, Diaresponse["result"], user_id)
         device.runSmarthome_Device()
         responseMessenge = device.getSpeech()
@@ -157,8 +157,8 @@ def NLP(  event, user_text, user_id ) :
 
     return responseMessenge
 
-
 @handler.add(MessageEvent, message=TextMessage)
+
 def handle_message(event):
     #line_bot_api.reply_message(event.reply_token, TextSendMessage("hello text"))
 
@@ -247,7 +247,6 @@ def handle_message(event):
             db.collection(u'userTextTree').document(user_id).delete()
             line_bot_api.reply_message(event.reply_token, TextSendMessage("Thank you"))
 
-
     elif event.message.text == "bot:delete" or ( doc_single_text is not None and doc_single_text["stock"][0] == "DELETE"  ) :
         print("bot:delete")
         # delete()
@@ -331,6 +330,33 @@ def handle_message(event):
             if ( len(templist) > 0 ) :
                 line_bot_api.push_message(user_id, TextSendMessage("Availible Device : "))
                 for x in templist:
+                    """
+                    if x == "lock":
+                        url = 'https://botty.today/botty/lock.jpg'
+                        reply = 'lock'
+
+                    else:
+                        url = 'https://botty.today/botty/light.jpeg'
+                        reply = 'light'
+
+
+
+                    Image_Carousel = TemplateSendMessage(
+                        alt_text='Light has been added',
+                        template=ImageCarouselTemplate(
+                            columns=[
+                                ImageCarouselColumn(
+                                    image_url= url,
+                                    action=PostbackTemplateAction(
+                                        label= reply,
+                                        text='-',
+                                        data='-'
+                                    )
+                                ),
+                            ]
+                        )
+                    )
+                    """
                     line_bot_api.push_message(user_id, TextSendMessage(x))
             else :
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Available Device is empty"))
@@ -344,9 +370,11 @@ def handle_message(event):
         return 0
 
 
-
+    # wait to fix
     elif doc_single_text is None :
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(NLP(event, event.message.text, user_id)))
+        #line_bot_api.reply_message(event.reply_token, TextSendMessage(NLP(event, event.message.text, user_id)))
+        line_bot_api.reply_message(event.reply_token,  TextSendMessage( "->" + event.message.text))
+
 
     else :
         line_bot_api.reply_message(event.reply_token, TextSendMessage( "Internal Error" ))
@@ -395,18 +423,17 @@ def handle_message(event):
 
         im = Image.open(file_path)
         im.save('result.png')
-
         code = decode(Image.open('result.png'))
 
+        # make sure it's a Qrcode
         if len(code) > 0 :
-
-            for x in code :
+            for x in code:
                 print(x)
 
-            string_of_code= str(code[0][0])
-            #{ 'type' : 'device.switch' , 'room' :  'bathroom', 'UUID' : '4564654654654' }
-            #print(string_of_code)
-            #print(code)
+            string_of_code = str(code[0][0])
+            code = string_of_code[2:len(string_of_code) - 1 ]
+            code = ast.literal_eval(code)
+
             try:
                 code = string_of_code[2:len(string_of_code) - 1 ]
                 code = ast.literal_eval( code  )
@@ -420,27 +447,66 @@ def handle_message(event):
                 else:
                     print("The file does not exist")
 
-                doc_ref = db.collection(u'user').document(user_id)
+                doc_user = db.collection(u'user').document(user_id)
+                doc_ref_devices = db.collection(u'devices_id').document(code["UUID"])
+
+
                 try :
-                    print(type(code))
-                    print(code["type"])
+                    #print(type(code))
+                    #print(code["type"])
 
                     # not finish
                     # 1 check device whether has been register before.
                     # 2 use flex-message to reply( to be more design) - use photos
+                    profile = line_bot_api.get_profile(user_id)
 
 
-                    if doc_ref.get().to_dict()[code["type"]]["situation"] is False:
+                    #line_bot_api.reply_message(event.reply_token, Image_Carousel)
 
-                        doc_ref.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
-                        line_bot_api.reply_message(event.reply_token,TextSendMessage("Add Device Successful!\nType : " + code["type"],"Room : " + code["room"]))
+
+                    if doc_user.get().to_dict()[code["type"]]["situation"] is False:
+                        if doc_ref_devices.get().to_dict() is not None and doc_ref_devices.get().to_dict()["owner"] != profile.display_name :
+                             doc_devices = doc_ref_devices.get().to_dict()
+                             line_bot_api.push_message(user_id,TextSendMessage("Devive : " + code["UUID"] + "\nis already be registered to -" + doc_devices["owner"]))
+                        else :
+                            doc_user.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
+                            doc_ref_devices.set({ code["UUID"] : profile.display_name })
+                            line_bot_api.reply_message(event.reply_token,TextSendMessage("Add Device Successful!"))
+                            string_to_reply = "welcome"
+
+                            if code["type"] == "lock" :
+                                url = 'https://botty.today/botty/lock.jpg'
+                            else:
+                                url = 'https://botty.today/botty/light.jpeg'
+
+                            Image_Carousel = TemplateSendMessage(
+                                alt_text='Light has been added',
+                                template=ImageCarouselTemplate(
+                                    columns=[
+                                        ImageCarouselColumn(
+                                            image_url=url,
+                                            action=PostbackTemplateAction(
+                                                label= string_to_reply,
+                                                text='-',
+                                                data='-'
+                                            )
+                                        ),
+                                    ]
+                                )
+                            )
+                            line_bot_api.push_message(user_id,Image_Carousel)
                     else:
                         line_bot_api.reply_message(event.reply_token, TextSendMessage("Scan success, But you have existed Device"))
+
 
                     db.collection(u'userTextTree').document(user_id).delete()
 
                 except TypeError :
                     line_bot_api.reply_message(event.reply_token,TextSendMessage("Scan Failure,This is not our Qrcode . please scan device qrcode again!"))
+
+
+
+
             except SyntaxError :
                line_bot_api.reply_message(event.reply_token,TextSendMessage("Scan Failure,This is not our Qrcode( Value Error ) . please scan device qrcode again!"))
 
@@ -449,10 +515,7 @@ def handle_message(event):
         else :
             line_bot_api.reply_message(event.reply_token, TextSendMessage("Scan Failure, please scan device qrcode again!"))
 
-
-
-
-    else :
+    else:
         line_bot_api.reply_message(event.reply_token, TextSendMessage( "Nice pic" ))
 
 @handler.add(MessageEvent, message=AudioMessage)

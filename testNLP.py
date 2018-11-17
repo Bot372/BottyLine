@@ -87,10 +87,10 @@ def handle_message(event):
     # 1. fetch the Product list in the database to dict
     # smartHomeDict = AWS()
     smartHomeDict = {
-        "lights.switch": True,
+        "lights-switch": True,
         "lock": True,
         "heating": True,
-        "device.switch": True,
+        "device-switch": True,
     }
 
     # NLP analyze 1.OtherType 2.smalltalk Iot-1.Light Iot-2.Lock Iot-3.Heating Iot-4.Device on off 3.weather 4.news

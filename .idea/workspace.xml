@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/Botty_Main.py" line="208" />
+    <bookmark url="file://$PROJECT_DIR$/Botty_Main.py" line="209" />
+    <bookmark url="file://$PROJECT_DIR$/test.py" line="142" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae25b009-8836-4f09-a4c0-6e3d5ef18a16" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Botty_Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Botty_Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testNLP.py" beforeDir="false" afterPath="$PROJECT_DIR$/testNLP.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,36 +63,36 @@
     <session id="404188595">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="8" />
           <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.4" value="10" />
-          <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="13" />
+          <entry key="project.open.time.3" value="2" />
+          <entry key="project.open.time.4" value="11" />
+          <entry key="project.open.time.5" value="2" />
+          <entry key="project.opened" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="LINE_drama" value="1" />
           <entry key="png" value="1" />
-          <entry key="py" value="32" />
+          <entry key="py" value="36" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="1" />
-          <entry key="Python" value="33" />
+          <entry key="Python" value="37" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="LINE_drama" value="212" />
-          <entry key="py" value="9754" />
+          <entry key="py" value="11322" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="9966" />
+          <entry key="Python" value="11534" />
         </counts>
       </usages-collector>
     </session>
@@ -100,27 +102,54 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Botty_Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1915">
-              <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+            <state relative-caret-position="-2888">
+              <caret line="353" column="37" lean-forward="true" selection-start-line="353" selection-start-column="37" selection-end-line="353" selection-end-column="37" />
               <folding>
-                <element signature="e#28#67#0" expanded="true" />
-                <element signature="e#1764#2178#0" />
-                <element signature="e#2407#2809#0" />
-                <element signature="e#2855#5679#0" />
-                <element signature="e#6356#10090#0" />
-                <element signature="e#10227#13117#0" />
-                <element signature="e#13172#14147#0" />
-                <element signature="e#14484#15274#0" />
-                <element signature="e#15356#18617#0" />
-                <element signature="e#18700#20583#0" />
-                <element signature="e#20634#20659#0" />
-                <element signature="e#20696#20923#0" />
-                <element signature="e#20963#21350#0" />
-                <element signature="e#21682#21841#0" />
-                <element signature="e#21857#22922#0" />
-                <marker date="1542345454206" expanded="true" signature="3016:5848" ph="..." />
-                <marker date="1542345454206" expanded="true" signature="21318:24308" ph="..." />
-                <marker date="1542345454206" expanded="true" signature="24307:24308" ph="..." />
+                <element signature="e#1937#2351#0" />
+                <element signature="e#2580#2982#0" />
+                <element signature="e#3028#5852#0" />
+                <element signature="e#6518#10252#0" />
+                <element signature="e#10389#13279#0" />
+                <element signature="e#14851#15641#0" />
+                <element signature="e#15717#15795#0" />
+                <element signature="e#21471#23354#0" />
+                <element signature="e#23467#23694#0" />
+                <element signature="e#23734#24121#0" />
+                <element signature="e#24178#24337#0" />
+                <element signature="e#24374#25439#0" />
+                <element signature="e#25463#26697#0" />
+                <marker date="1542446072649" expanded="false" signature="3017:5848" ph="..." />
+                <marker date="1542446072649" expanded="true" signature="24334:27324" ph="..." />
+                <marker date="1542446072649" expanded="true" signature="27323:27324" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testNLP.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="972">
+              <caret line="92" column="16" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Upload_Text.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-548" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="114" column="4" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="62" />
+              <folding>
+                <element signature="e#1#12#0" expanded="true" />
+                <element signature="e#1420#1975#0" />
               </folding>
             </state>
           </provider>
@@ -162,7 +191,6 @@
         <option value="$PROJECT_DIR$/LINE_drama" />
         <option value="$PROJECT_DIR$/Entity/Entity.py" />
         <option value="$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/qrtools/qrtools.py" />
-        <option value="$PROJECT_DIR$/testNLP.py" />
         <option value="$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/pyzbar/zbar_library.py" />
         <option value="$PROJECT_DIR$/smarthome/smarthomeLock.py" />
         <option value="$PROJECT_DIR$/smarthome/smarthomeLight.py" />
@@ -172,13 +200,14 @@
         <option value="$PROJECT_DIR$/smarthome/news.py" />
         <option value="$PROJECT_DIR$/data_action.py" />
         <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/testNLP.py" />
         <option value="$PROJECT_DIR$/Botty_Main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-33" />
-    <option name="y" value="-14" />
+    <option name="x" value="-24" />
+    <option name="y" value="1" />
     <option name="width" value="1927" />
     <option name="height" value="860" />
   </component>
@@ -187,9 +216,14 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
+            <path>
+              <item name="bottyline" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bottyline" type="462c0819:PsiDirectoryNode" />
+            </path>
             <path>
               <item name="bottyline" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
@@ -198,11 +232,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../auto_crawler_ptt_beauty_image-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Face-Recognition-using-Keras---Tensorflow-master" />
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
   </component>
   <component name="RunDashboard">
@@ -305,8 +338,8 @@
     <list>
       <item itemvalue="Python.app" />
       <item itemvalue="Python.Botty_Main" />
-      <item itemvalue="Python.test" />
       <item itemvalue="Python.data_action" />
+      <item itemvalue="Python.test" />
     </list>
     <recent_temporary>
       <list>
@@ -331,7 +364,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23287672" />
@@ -339,7 +372,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.040173724" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2247557" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3441911" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3995657" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -429,13 +462,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/result.png" />
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/smarthome/weather.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
@@ -482,42 +508,53 @@
     <entry file="file://$PROJECT_DIR$/S_R_Upload.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Upload_Text.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testNLP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="42" column="12" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Speech_Website.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="114" column="4" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="62" />
+          <folding>
+            <element signature="e#1#12#0" expanded="true" />
+            <element signature="e#1420#1975#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testNLP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="972">
+          <caret line="92" column="16" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Upload_Text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-548" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Botty_Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1915">
-          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+        <state relative-caret-position="-2888">
+          <caret line="353" column="37" lean-forward="true" selection-start-line="353" selection-start-column="37" selection-end-line="353" selection-end-column="37" />
           <folding>
-            <element signature="e#28#67#0" expanded="true" />
-            <element signature="e#1764#2178#0" />
-            <element signature="e#2407#2809#0" />
-            <element signature="e#2855#5679#0" />
-            <element signature="e#6356#10090#0" />
-            <element signature="e#10227#13117#0" />
-            <element signature="e#13172#14147#0" />
-            <element signature="e#14484#15274#0" />
-            <element signature="e#15356#18617#0" />
-            <element signature="e#18700#20583#0" />
-            <element signature="e#20634#20659#0" />
-            <element signature="e#20696#20923#0" />
-            <element signature="e#20963#21350#0" />
-            <element signature="e#21682#21841#0" />
-            <element signature="e#21857#22922#0" />
-            <marker date="1542345454206" expanded="true" signature="3016:5848" ph="..." />
-            <marker date="1542345454206" expanded="true" signature="21318:24308" ph="..." />
-            <marker date="1542345454206" expanded="true" signature="24307:24308" ph="..." />
+            <element signature="e#1937#2351#0" />
+            <element signature="e#2580#2982#0" />
+            <element signature="e#3028#5852#0" />
+            <element signature="e#6518#10252#0" />
+            <element signature="e#10389#13279#0" />
+            <element signature="e#14851#15641#0" />
+            <element signature="e#15717#15795#0" />
+            <element signature="e#21471#23354#0" />
+            <element signature="e#23467#23694#0" />
+            <element signature="e#23734#24121#0" />
+            <element signature="e#24178#24337#0" />
+            <element signature="e#24374#25439#0" />
+            <element signature="e#25463#26697#0" />
+            <marker date="1542446072649" expanded="false" signature="3017:5848" ph="..." />
+            <marker date="1542446072649" expanded="true" signature="24334:27324" ph="..." />
+            <marker date="1542446072649" expanded="true" signature="27323:27324" ph="..." />
           </folding>
         </state>
       </provider>
