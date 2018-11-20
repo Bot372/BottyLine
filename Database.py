@@ -27,32 +27,13 @@ def addSmarthome( collection ,userId ) :
     elif collection == 'heating' :
         #Add heating
         doc_ref = db.collection(u'heating').document( userId )
-        doc_ref.set({
-            u'bedroom'     : {
-                u'device' : {
-                    u'status' : False,
-                    u'time'   : 30,
-                    u'value'  : 30
-                },
-                u'temp' : 30
-            },
-            u'diningroom'  : {
-                u'device' : {
-                    u'status': False,
-                    u'time': 30,
-                    u'value': 30
-                },
-                u'temp' : 30
-            },
-            u'livingroom'  : {
-                u'device' : {
-                    u'status': False,
-                    u'time': 30,
-                    u'value': 30
-                },
-                u'temp' : 30
-            }
-        })
+
+
+
+
+
+
+
     elif collection == 'device' :
         #Add device
         doc_ref = db.collection(u'device').document( userId )

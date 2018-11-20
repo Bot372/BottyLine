@@ -112,6 +112,7 @@ def NLP(  event, user_text, user_id ) :
     # Check the product in the Database
     # 1. fetch the Product list in the database to dict
     doc_ref = db.collection(u'user').document(user_id)
+    user_UUID = str()
     if doc_ref is not None :
         doc = doc_ref.get()
         doc_single = doc.to_dict()
@@ -123,16 +124,17 @@ def NLP(  event, user_text, user_id ) :
         }
     else :
         smartHomeDict = {
-            "lights-switch": False,
+            "light-switch": False,
             "lock": False,
             "heating": False,
             "device-switch": False,
         }
 
     print(action)
-    if ("PARTY" in user_text.upper()) is True and (smartHomeDict["lights.switch"] == True):
-        line_bot_api.push_message(user_id, TextSendMessage("https://www.youtube.com/watch?v=LlUKzktFYQA"))
-        responseMessenge = Party.runParty(user_id)
+    print( smartHomeDict )
+    if ("PARTY" in user_text.upper()) is True and (smartHomeDict["light-switch"] == True):
+        #line_bot_api.push_message(user_id, TextSendMessage("https://www.youtube.com/watch?v=LlUKzktFYQA"))
+        responseMessenge = "https://www.youtube.com/watch?v=LlUKzktFYQA"
         # 戰隊歌
     elif user_text == "南無阿彌陀佛" :
         responseMessenge = "歡迎加入戰隊"
@@ -147,23 +149,28 @@ def NLP(  event, user_text, user_id ) :
         responseMessenge = {i: responseMessenge[i] for i in range(0, len(responseMessenge))}
         responseMessenge = responseMessenge[0]["speech"]
     # (Iot-1) smart home Light
-    elif action[0:23] == "smarthome.lights-switch" and smartHomeDict["lights-switch"] == True:
-        light = smarthomeLight.Light(action, Diaresponse["result"], user_id)
+    elif action[0:23] == "smarthome.lights.switch" and smartHomeDict["light-switch"] == True :
+        user_UUID = doc_single["light-switch"]["UUID"]
+        print( user_UUID )
+        light = smarthomeLight.Light(action, Diaresponse["result"], user_UUID )
         light.runSmarthome_Light()
         responseMessenge = light.getSpeech()
         # (Iot-2) smart home Lock
     elif action[0:15] == "smarthome.locks" and smartHomeDict["lock"] == True:
-        lock = smarthomeLock.Lock(action, Diaresponse["result"], user_id)
+        user_UUID = doc_single["lock"]["UUID"]
+        lock = smarthomeLock.Lock(action, Diaresponse["result"], user_UUID )
         lock.runSmarthome_Lock()
         responseMessenge = lock.getSpeech()
     # (Iot-3) smart home heat
     elif action[0:17] == "smarthome.heating" and smartHomeDict["heating"] == True:
-        heat = smarthomeHeat.Heat(action, Diaresponse["result"], user_id)
+        user_UUID = doc_single["heating"]["UUID"]
+        heat = smarthomeHeat.Heat(action, Diaresponse["result"], user_UUID )
         heat.runSmarthome_Heat()
         responseMessenge = heat.getSpeech()
     # (Iot-4) smart home device
-    elif action[0:23] == "smarthome.device-switch" and smartHomeDict["device-switch"] == True:
-        device = smarthomeDevice.Device(action, Diaresponse["result"], user_id)
+    elif action[0:23] == "smarthome.device.switch" and smartHomeDict["device-switch"] == True:
+        user_UUID = doc_single["device-switch"]["UUID"]
+        device = smarthomeDevice.Device(action, Diaresponse["result"], user_UUID )
         device.runSmarthome_Device()
         responseMessenge = device.getSpeech()
     # (3) check the weather
@@ -181,13 +188,16 @@ def NLP(  event, user_text, user_id ) :
                 lanCode = json.load(fp)
 
             translator = Translator()
+            print( lanCode[destCode] )
             afterText = translator.translate( originalText, dest= lanCode[destCode] )
-
+            print(afterText)
             return afterText.text
 
         try :
             originalText = Diaresponse["result"]["parameters"]["text"]
+            print( originalText )
             destCode     = Diaresponse["result"]["parameters"]["lang-to"]
+            print( destCode )
             responseMessenge = TranslateText( originalText, destCode  )
         except :
             responseMessenge = "Sorry botty could not translate for you"
@@ -334,17 +344,17 @@ def handle_message(event):
 
             elif doc_single_text["stock"][0] == "DELETE" and event.message.text == "device-switch" or  event.message.text == "heating" or event.message.text == "light-switch" or event.message.text == "lock":
                 if event.message.text == "device-switch" :
+                    Database.deleteSmarthome("device", doc_single["device-switch"]["UUID"] )  # DELETE DATABASE
                     doc_ref.update({ u'device-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
-                    Database.deleteSmarthome( "device", user_id ) # DELETE DATABASE
                 elif event.message.text == "heating" :
+                    Database.deleteSmarthome( "heating", doc_single["heating"]["UUID"] )  # DELETE DATABASE
                     doc_ref.update({ u'heating': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
-                    Database.deleteSmarthome( "heating", user_id)  # DELETE DATABASE
                 elif event.message.text == "light-switch" :
+                    Database.deleteSmarthome( "light", doc_single["light-switch"]["UUID"] )  # DELETE DATABASE
                     doc_ref.update({ u'light-switch': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
-                    Database.deleteSmarthome( "light", user_id)  # DELETE DATABASE
                 elif event.message.text == "lock" :
+                    Database.deleteSmarthome("lock", doc_single["lock"]["UUID"]  )  # DELETE DATABASE
                     doc_ref.update({ u'lock': {u'situation': False, u'UUID': "******", u'TimeStamp': datetime.datetime.now()}})
-                    Database.deleteSmarthome("lock", user_id)  # DELETE DATABASE
                 line_bot_api.reply_message(event.reply_token, TextSendMessage("Delete Successful"))
                 db.collection(u'userTextTree').document(user_id).delete()
 
@@ -486,14 +496,14 @@ def handle_message(event):
 
 
                     if doc_user.get().to_dict()[code["type"]]["situation"] is False:
-                        if doc_ref_devices.get().to_dict() is not None and doc_ref_devices.get().to_dict()["owner"] != profile.display_name :
+                        if doc_ref_devices.get().to_dict() is not None and doc_ref_devices.get().to_dict()[code["UUID"]]["owner"] != profile.display_name :
                              doc_devices = doc_ref_devices.get().to_dict()
                              line_bot_api.push_message(user_id,TextSendMessage("Devive : " + code["UUID"] + "\nis already be registered to -" + doc_devices["owner"]))
                         else :
                             doc_user.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
                             userToDeviceDict = {'device-switch': 'device', 'heating': 'heating', 'light-switch': 'light', 'lock' : 'lock'  }
-                            Database.addSmarthome(  userToDeviceDict[ code["type"] ] ,user_id ) # ADD SmartHOme to Database
-                            doc_ref_devices.set({ code["UUID"] : profile.display_name })
+                            Database.addSmarthome(  userToDeviceDict[ code["type"] ] , code["UUID"] ) # ADD SmartHOme to Database
+                            doc_ref_devices.set({ code["UUID"] : { u'owner' : profile.display_name } })
                             line_bot_api.reply_message(event.reply_token,TextSendMessage("Add Device Successful!"))
                             string_to_reply = "welcome"
 
@@ -721,7 +731,7 @@ def ptt_beauty():
 """ ptt beauty """
 
 if __name__ == "__main__":
-    app.run()
+    app.run( debug= True, port= 80 )
 
 
     
