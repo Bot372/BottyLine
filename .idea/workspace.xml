@@ -1,42 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/Botty_Main.py" line="260" />
+    <bookmark url="file://$PROJECT_DIR$/Botty_Main.py" line="276" />
     <bookmark url="file://$PROJECT_DIR$/test.py" line="143" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae25b009-8836-4f09-a4c0-6e3d5ef18a16" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Botty_Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Botty_Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-            <file pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/Mchighlight/BottyMain.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="638">
-                    <caret line="199" selection-start-line="199" selection-end-line="199" />
-                    <folding>
-                      <element signature="e#0#63#0" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-45157376">
@@ -84,12 +61,12 @@
     <session id="404188595">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="10" />
+          <entry key="project.closed" value="11" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.3" value="2" />
-          <entry key="project.open.time.4" value="12" />
+          <entry key="project.open.time.4" value="14" />
           <entry key="project.open.time.5" value="2" />
-          <entry key="project.opened" value="17" />
+          <entry key="project.opened" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -97,7 +74,7 @@
           <entry key="LINE_drama" value="1" />
           <entry key="json" value="1" />
           <entry key="png" value="1" />
-          <entry key="py" value="41" />
+          <entry key="py" value="42" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
@@ -106,37 +83,53 @@
           <entry key="Image" value="1" />
           <entry key="JSON" value="1" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="42" />
+          <entry key="Python" value="43" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="LINE_drama" value="212" />
           <entry key="dummy" value="8" />
-          <entry key="py" value="12824" />
+          <entry key="py" value="13342" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="9" />
-          <entry key="Python" value="13036" />
+          <entry key="Python" value="13554" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Botty_Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="345" column="58" lean-forward="true" selection-start-line="345" selection-start-column="58" selection-end-line="345" selection-end-column="58" />
+            <state relative-caret-position="163">
+              <caret line="242" column="26" selection-start-line="242" selection-start-column="26" selection-end-line="242" selection-end-column="26" />
               <folding>
-                <marker date="1542726671673" expanded="true" signature="3294:8060" ph="..." />
-                <marker date="1542726671673" expanded="true" signature="26781:29773" ph="..." />
-                <marker date="1542726671673" expanded="true" signature="29772:29773" ph="..." />
+                <element signature="e#27#66#0" expanded="true" />
+                <element signature="e#2851#3253#0" />
+                <element signature="e#3299#8058#0" />
+                <element signature="e#8728#12605#0" />
+                <element signature="e#12741#16184#0" />
+                <element signature="e#16237#17336#0" />
+                <element signature="e#17387#17536#0" />
+                <marker date="1542808131014" expanded="true" signature="3324:8090" ph="..." />
+                <marker date="1542808131014" expanded="true" signature="30946:33938" ph="..." />
+                <marker date="1542808131014" expanded="true" signature="33937:33938" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/linebot/api.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1223">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
             </state>
           </provider>
         </entry>
@@ -194,19 +187,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Database.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
-              <folding>
-                <marker date="1542730225303" expanded="true" signature="109:110" ph="..." />
-                <marker date="1542730225303" expanded="true" signature="2602:2603" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -258,13 +238,14 @@
         <option value="$PROJECT_DIR$/addDataBase.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Party.py" />
-        <option value="$PROJECT_DIR$/Botty_Main.py" />
         <option value="$PROJECT_DIR$/Database.py" />
+        <option value="$PROJECT_DIR$/Botty_Main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
+    <option name="x" value="636" />
+    <option name="y" value="5" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
@@ -273,6 +254,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -293,7 +275,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -457,7 +438,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.040173724" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.31161782" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30510315" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3995657" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -589,6 +570,27 @@
     <entry file="file://$PROJECT_DIR$/Speech_Website.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/Database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="665">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mchighlight/BottyMain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="199" selection-start-line="199" selection-end-line="199" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/translate.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="49" selection-start-column="42" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Party.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -623,42 +625,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Mchighlight/BottyMain.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/linebot/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="199" selection-start-line="199" selection-end-line="199" />
-          <folding>
-            <element signature="e#0#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/translate.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="49" selection-start-column="42" selection-end-column="49" />
+        <state relative-caret-position="-1223">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Botty_Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="345" column="58" lean-forward="true" selection-start-line="345" selection-start-column="58" selection-end-line="345" selection-end-column="58" />
+        <state relative-caret-position="163">
+          <caret line="242" column="26" selection-start-line="242" selection-start-column="26" selection-end-line="242" selection-end-column="26" />
           <folding>
-            <marker date="1542726671673" expanded="true" signature="3294:8060" ph="..." />
-            <marker date="1542726671673" expanded="true" signature="26781:29773" ph="..." />
-            <marker date="1542726671673" expanded="true" signature="29772:29773" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <marker date="1542730225303" expanded="true" signature="109:110" ph="..." />
-            <marker date="1542730225303" expanded="true" signature="2602:2603" ph="..." />
+            <element signature="e#27#66#0" expanded="true" />
+            <element signature="e#2851#3253#0" />
+            <element signature="e#3299#8058#0" />
+            <element signature="e#8728#12605#0" />
+            <element signature="e#12741#16184#0" />
+            <element signature="e#16237#17336#0" />
+            <element signature="e#17387#17536#0" />
+            <marker date="1542808131014" expanded="true" signature="3324:8090" ph="..." />
+            <marker date="1542808131014" expanded="true" signature="30946:33938" ph="..." />
+            <marker date="1542808131014" expanded="true" signature="33937:33938" ph="..." />
           </folding>
         </state>
       </provider>

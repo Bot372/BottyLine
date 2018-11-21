@@ -23,6 +23,7 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
+from datetime import timezone
 
 #add the smarthome file to current system path
 testdir = os.path.dirname(os.path.realpath(__file__)) + "\\smarthome"
@@ -225,10 +226,25 @@ def handle_message(event):
     doc_ref_text = db.collection(u'userTextTree').document(user_id)
     doc_text = doc_ref_text.get()
     doc_single_text = doc_text.to_dict()
+
+
+    #print( delta .total_seconds() )
+
+    # one conversation is alive in only 5 minutes
+
+
+
     if doc_single_text is not None :
+        d1 = datetime.datetime.now(timezone.utc)
+        d2 = doc_single_text["time"]
+        delta = d1 - d2
+        if ( delta.total_seconds() / 60 > 5 ) :
+            db.collection(u'userTextTree').document(user_id).delete()
+            print( "delete")
         print(  doc_single_text["stock"] )
 
-    if event.message.text == "bot:add" or ( doc_single_text is not None and doc_single_text["stock"][0] == "ADD"  ) :
+
+    elif event.message.text == "bot:add" or ( doc_single_text is not None and doc_single_text["stock"][0] == "ADD"  ) :
 
         # initailize botty text stock with array and timestamp
         # Step1
@@ -400,6 +416,55 @@ def handle_message(event):
             TextSendMessage(text=content))
         return 0
 
+    elif event.message.text == "test":
+        bubble = BubbleContainer(
+            direction='ltr',
+            hero=ImageComponent(
+                url='https://botty.today/botty/light.jpeg',
+                size='full',
+                aspect_ratio='20:13',
+                aspect_mode='cover',
+            ),
+            body=BoxComponent(
+                layout='vertical',
+                contents=[
+                    # title
+                    TextComponent(text='Brown Cafe', weight='bold', size='xl'),
+                    # info
+                    BoxComponent(
+                        layout='vertical',
+                        margin='lg',
+                        spacing='sm',
+                        contents=[
+                            BoxComponent(
+                                layout='baseline',
+                                spacing='sm',
+                                contents=[
+                                    TextComponent(
+                                        text='Place',
+                                        color='#aaaaaa',
+                                        size='sm',
+                                        flex=1
+                                    ),
+                                    TextComponent(
+                                        text='Shinjuku, Tokyo',
+                                        wrap=True,
+                                        color='#666666',
+                                        size='sm',
+                                        flex=5
+                                    )
+                                ],
+                            )
+                        ],
+                    )
+                ],
+            ),
+        )
+        message = FlexSendMessage(alt_text="hello", contents=bubble)
+        line_bot_api.reply_message(
+            event.reply_token,
+            message
+        )
 
     # wait to fix
     elif doc_single_text is None :
@@ -508,26 +573,59 @@ def handle_message(event):
                             string_to_reply = "welcome"
 
                             if code["type"] == "lock" :
-                                url = 'https://botty.today/botty/lock.jpg'
+                                urla = 'https://botty.today/botty/lock.jpg'
+                                typea = 'lock'
                             else:
-                                url = 'https://botty.today/botty/light.jpeg'
+                                urla = 'https://botty.today/botty/light.jpeg'
+                                typea = 'light'
 
-                            Image_Carousel = TemplateSendMessage(
-                                alt_text='Light has been added',
-                                template=ImageCarouselTemplate(
-                                    columns=[
-                                        ImageCarouselColumn(
-                                            image_url=url,
-                                            action=PostbackTemplateAction(
-                                                label= string_to_reply,
-                                                text='-',
-                                                data='-'
-                                            )
-                                        ),
-                                    ]
-                                )
+                            bubble = BubbleContainer(
+                                direction='ltr',
+                                hero=ImageComponent(
+                                    url= urla,
+                                    size='full',
+                                    aspect_ratio='20:13',
+                                    aspect_mode='cover',
+                                ),
+                                body=BoxComponent(
+                                    layout='vertical',
+                                    contents=[
+                                        # title
+                                        TextComponent(text='Brown Cafe', weight='bold', size='xl'),
+                                        # info
+                                        BoxComponent(
+                                            layout='vertical',
+                                            margin='lg',
+                                            spacing='sm',
+                                            contents=[
+                                                BoxComponent(
+                                                    layout='baseline',
+                                                    spacing='sm',
+                                                    contents=[
+                                                        TextComponent(
+                                                            text='Device',
+                                                            color='#aaaaaa',
+                                                            size='sm',
+                                                            flex=1
+                                                        ),
+                                                        TextComponent(
+                                                            text= typea,
+                                                            wrap=True,
+                                                            color='#666666',
+                                                            size='sm',
+                                                            flex=5
+                                                        )
+                                                    ],
+                                                )
+                                            ],
+                                        )
+                                    ],
+                                ),
                             )
-                            line_bot_api.push_message(user_id,Image_Carousel)
+
+
+                            message = FlexSendMessage(alt_text="Add Device ", contents=bubble)
+                            line_bot_api.reply_message(event.reply_token,message)
                     else:
                         line_bot_api.reply_message(event.reply_token, TextSendMessage("Scan success, But you have existed Device"))
 
@@ -731,7 +829,7 @@ def ptt_beauty():
 """ ptt beauty """
 
 if __name__ == "__main__":
-    app.run( debug= True, port= 80 )
+    app.run()
 
 
     
