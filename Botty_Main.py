@@ -235,46 +235,62 @@ def handle_message(event):
 
 
     if doc_single_text is not None :
-        d1 = datetime.datetime.now(timezone.utc)
-        d2 = doc_single_text["time"]
-        delta = d1 - d2
-        if ( delta.total_seconds() / 60 > 5 ) :
-            db.collection(u'userTextTree').document(user_id).delete()
-            print( "delete")
         print(  doc_single_text["stock"] )
 
 
-    elif event.message.text == "bot:add" or ( doc_single_text is not None and doc_single_text["stock"][0] == "ADD"  ) :
+    if event.message.text == "bot:add" or ( doc_single_text is not None and doc_single_text["stock"][0] == "ADD"  ) :
 
         # initailize botty text stock with array and timestamp
         # Step1
         if not check_userTextTree(user_id) :
             if check_user_exist(user_id) is True :
-                Confirm_template = TemplateSendMessage(
+                Confirm_template_exist_account = TemplateSendMessage(
                     alt_text='Confirm Notice',
-                    template=ConfirmTemplate(title='這是ConfirmTemplate',text='Hello, welcome back to botty. Do you want add new device ?',
-                        actions=[PostbackTemplateAction(label='Add New Device',text='Add new Device in your account',data='action=buy&itemid=1'),
-                            MessageTemplateAction(label='No New Account',text='No need add in account')
+                    template=ButtonsTemplate(
+                        title='Welcome Back to Botty ' + profile.display_name,
+                        text='Do you want add new device ?',
+                        thumbnail_image_url='https://botty.today/botty/welcome.jpg',
+                        actions=[
+                            PostbackTemplateAction(
+                                label='Add Device',
+                                text='Add new Device in your account',
+                                data='postback1'
+                            ),
+                            PostbackTemplateAction(
+                                label='No new Device',
+                                text='No need add in account',
+                                data='postback2'
+                            )
                         ]
                     )
                 )
-
-                line_bot_api.reply_message(event.reply_token, Confirm_template)
+                line_bot_api.reply_message(event.reply_token, Confirm_template_exist_account)
             else :
-                Confirm_template = TemplateSendMessage(
+                Confirm_template_welcome_to_join = TemplateSendMessage(
                     alt_text='Confirm Notice',
-                    template=ConfirmTemplate(title='這是ConfirmTemplate',text='Hello, welcome to botty. Do you want to join us ?',
-                        actions=[PostbackTemplateAction(label='Add New Account ',text='Add new Account',data='action=buy&itemid=1'),
-                            MessageTemplateAction(label='No New Account',text='No New Account')
+                    template=ButtonsTemplate(
+                        title='Hello, Welcome to botty, ' + profile.display_name,
+                        text='Do you want to join us ?',
+                        thumbnail_image_url='https://botty.today/botty/welcome_1.JPG',
+                        actions=[
+                            PostbackTemplateAction(
+                                label='New Account',
+                                text='Add New Account',
+                                data='postback1'
+                            ),
+                            PostbackTemplateAction(
+                                label='No New Account',
+                                text='No New Account',
+                                data='postback2'
+                            )
                         ]
                     )
                 )
-
-                line_bot_api.reply_message(event.reply_token, Confirm_template)
+                line_bot_api.reply_message(event.reply_token, Confirm_template_welcome_to_join)
 
         # Step2-new Account
         #new Account( Yes / No )
-        elif event.message.text == "Add new Account" and ( doc_single_text["stock"][0] == "ADD" ) :
+        elif event.message.text == "Add New Account" and ( doc_single_text["stock"][0] == "ADD" ) :
             #create new user
             print( "Enter Add new Account" )
             doc_ref = db.collection(u'user').document(user_id)
@@ -563,7 +579,7 @@ def handle_message(event):
                     if doc_user.get().to_dict()[code["type"]]["situation"] is False:
                         if doc_ref_devices.get().to_dict() is not None and doc_ref_devices.get().to_dict()[code["UUID"]]["owner"] != profile.display_name :
                              doc_devices = doc_ref_devices.get().to_dict()
-                             line_bot_api.push_message(user_id,TextSendMessage("Devive : " + code["UUID"] + "\nis already be registered to -" + doc_devices["owner"]))
+                             line_bot_api.push_message(user_id,TextSendMessage("Devive : " + code["UUID"] + "\nis already be registered to -" + doc_devices[code["UUID"]]["owner"]))
                         else :
                             doc_user.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
                             userToDeviceDict = {'device-switch': 'device', 'heating': 'heating', 'light-switch': 'light', 'lock' : 'lock'  }
@@ -572,6 +588,7 @@ def handle_message(event):
                             line_bot_api.reply_message(event.reply_token,TextSendMessage("Add Device Successful!"))
                             string_to_reply = "welcome"
 
+                            owner = "Owner : "+ profile.display_name
                             if code["type"] == "lock" :
                                 urla = 'https://botty.today/botty/lock.jpg'
                                 typea = 'lock'
@@ -591,7 +608,7 @@ def handle_message(event):
                                     layout='vertical',
                                     contents=[
                                         # title
-                                        TextComponent(text='Brown Cafe', weight='bold', size='xl'),
+                                        TextComponent(text=owner, weight='bold', size='xl'),
                                         # info
                                         BoxComponent(
                                             layout='vertical',
@@ -603,10 +620,10 @@ def handle_message(event):
                                                     spacing='sm',
                                                     contents=[
                                                         TextComponent(
-                                                            text='Device',
+                                                            text='Device : ',
                                                             color='#aaaaaa',
                                                             size='sm',
-                                                            flex=1
+                                                            flex=2
                                                         ),
                                                         TextComponent(
                                                             text= typea,
@@ -625,7 +642,7 @@ def handle_message(event):
 
 
                             message = FlexSendMessage(alt_text="Add Device ", contents=bubble)
-                            line_bot_api.reply_message(event.reply_token,message)
+                            line_bot_api.push_message(user_id,message)
                     else:
                         line_bot_api.reply_message(event.reply_token, TextSendMessage("Scan success, But you have existed Device"))
 
