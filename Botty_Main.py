@@ -45,9 +45,8 @@ db = firestore.client()  # conncect to cloud firestore database
 
 
 app = Flask(__name__)
-line_bot_api = LineBotApi(
-    '8PhyG0TWWeOZ1hRJb4618e3UE6jSN+KNdpd8MJjaHUs/moHgGFfvyfv82whJQh0Ebw8fyKODATEbp8fNsFWzydi1S6VMssEB74m6nP2FCpqeOtkpLqfI+O6fx2aIwMma4sXFvw9dY9O53JpoTjda1wdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('e2a156e78a65ba2ffa4eb65c85da5b9f')
+line_bot_api = LineBotApi('YOUR_LINE_CHATBOT Channel access token ')
+handler = WebhookHandler('YOUR_LINE_CHATBOT Channel secret')
 
 """ initailize amazon bucket """
 ACCESS_KEY_ID = 'AKIAIJKNMECREABAM4EA'
@@ -210,8 +209,6 @@ def NLP(  event, user_text, user_id ) :
         responseMessenge = "Do you want to add the new IoT device"
 
     return responseMessenge
-
-
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -391,7 +388,7 @@ def handle_message(event):
                 db.collection(u'userTextTree').document(user_id).delete()
 
             else :
-                line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type in right device"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage("Please type in right device ! "))
 
         else :
             line_bot_api.reply_message(event.reply_token, TextSendMessage("you haven't join in our botty"))
@@ -583,7 +580,7 @@ def handle_message(event):
                         else :
                             doc_user.update({code["type"]: {u'situation': True, u'UUID': code["UUID"], u'TimeStamp': datetime.datetime.now()}})
                             userToDeviceDict = {'device-switch': 'device', 'heating': 'heating', 'light-switch': 'light', 'lock' : 'lock'  }
-                            Database.addSmarthome(  userToDeviceDict[ code["type"] ] , code["UUID"] ) # ADD SmartHOme to Database
+                            Database.addSmarthome(  userToDeviceDict[ code["type"] ] , code["UUID"], profile.display_name ) # ADD SmartHOme to Database
                             doc_ref_devices.set({ code["UUID"] : { u'owner' : profile.display_name } })
                             line_bot_api.reply_message(event.reply_token,TextSendMessage("Add Device Successful!"))
                             string_to_reply = "welcome"
@@ -651,9 +648,6 @@ def handle_message(event):
 
                 except TypeError :
                     line_bot_api.reply_message(event.reply_token,TextSendMessage("Scan Failure,This is not our Qrcode . please scan device qrcode again!"))
-
-
-
 
             except SyntaxError :
                line_bot_api.reply_message(event.reply_token,TextSendMessage("Scan Failure,This is not our Qrcode( Value Error ) . please scan device qrcode again!"))
