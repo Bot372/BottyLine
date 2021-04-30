@@ -58,7 +58,7 @@ pytz==2018.5
 PyYAML==3.13
 pyzbar==0.1.7
 requests==2.12.4
-rsa==4.0
+rsa==4.7
 s3transfer==0.1.13
 schedule==0.4.2
 scipy==1.1.0
