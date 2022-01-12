@@ -47,7 +47,7 @@ msgpack==0.5.6
 numpy==1.15.2
 opencv-python==3.4.3.18
 Pillow==5.3.0
-pipenv==2018.10.13
+pipenv==2022.1.8
 protobuf==3.6.1
 psycopg2==2.7.5
 pyasn1==0.4.4
